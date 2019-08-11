@@ -64,7 +64,7 @@ linux-node3.example.com
 192.168.56.13 linux-node3 linux-node3.example.com
 
 ```
-1.3 关闭SELinux和防火墙
+1.3 关闭SELinux
 ```
 [root@linux-node1 ~]# vim /etc/sysconfig/selinux
 SELINUX=disabled #修改为disabled
@@ -72,10 +72,9 @@ SELINUX=disabled #修改为disabled
 
 1.4 关闭NetworkManager和防火墙开启自启动
 ```
-[root@linux-node1 ~]# systemctl disable firewalld
-[root@linux-node1 ~]# systemctl disable NetworkManager
+[root@linux-node1 ~]# systemctl stop firewalld && systemctl disable firewalld
+[root@linux-node1 ~]# systemctl stop NetworkManager && systemctl disable NetworkManager
 ```
-
 
 ## 2.安装Salt-SSH并克隆本项目代码。
 
@@ -89,16 +88,16 @@ SELINUX=disabled #修改为disabled
 
 2.2 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）
 ```
-[root@linux-node1 ~]# yum install https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
-[root@linux-node1 ~]# yum install https://mirrors.aliyun.com/saltstack/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
+[root@linux-node1 ~]# yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
+[root@linux-node1 ~]# yum install -y https://mirrors.aliyun.com/saltstack/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
 [root@linux-node1 ~]# sed -i "s/repo.saltstack.com/mirrors.aliyun.com\/saltstack/g" /etc/yum.repos.d/salt-latest.repo
 [root@linux-node1 ~]# yum install -y salt-ssh git unzip
 ```
 
 2.3 获取本项目代码，并放置在/srv目录
 ```
-[root@linux-node1 ~]# git clone https://github.com/unixhot/salt-kubernetes.git
-[root@linux-node1 ~]# cd salt-kubernetes/
+[root@linux-node1 ~]# git clone https://github.com/unixhot/salt-kubeadm.git
+[root@linux-node1 ~]# cd salt-kubeadm/
 [root@linux-node1 ~]# mv * /srv/
 [root@linux-node1 srv]# /bin/cp /srv/roster /etc/salt/roster
 [root@linux-node1 srv]# /bin/cp /srv/master /etc/salt/master
@@ -108,8 +107,6 @@ SELINUX=disabled #修改为disabled
 ## 3.Salt SSH管理的机器以及角色分配
 
 - k8s-role: 用来设置K8S的角色
-- etcd-role: 用来设置etcd的角色，如果只需要部署一个etcd，只需要在一台机器上设置即可
-- etcd-name: 如果对一台机器设置了etcd-role就必须设置etcd-name
 
 ```
 [root@linux-node1 ~]# vim /etc/salt/roster 
@@ -120,8 +117,6 @@ linux-node1:
   minion_opts:
     grains:
       k8s-role: master
-      etcd-role: node
-      etcd-name: etcd-node1
 
 linux-node2:
   host: 192.168.56.12
@@ -130,8 +125,6 @@ linux-node2:
   minion_opts:
     grains:
       k8s-role: node
-      etcd-role: node
-      etcd-name: etcd-node2
 
 linux-node3:
   host: 192.168.56.13
@@ -140,8 +133,6 @@ linux-node3:
   minion_opts:
     grains:
       k8s-role: node
-      etcd-role: node
-      etcd-name: etcd-node3
 ```
 
 ## 4.修改对应的配置参数，本项目使用Salt Pillar保存配置
@@ -179,9 +170,9 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 [root@linux-node1 ~]# salt-ssh '*' test.ping
 ```
-执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 
 5.2 部署K8S集群
+执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
