@@ -12,7 +12,7 @@
 
 ## 手工部署
 
-请参考[Docker和Kubernetes实践指南](http://k8s.unixhot.com)
+请参考开源书籍：[Docker和Kubernetes实践指南](http://k8s.unixhot.com) 第五章节内容。
 
 ## 架构介绍
 1. 使用Salt Grains进行角色定义，增加灵活性。
