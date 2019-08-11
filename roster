@@ -13,8 +13,6 @@ linux-node1:
   minion_opts: 
     grains:
       k8s-role: master
-      etcd-role: node
-      etcd-name: etcd-node1
 
 linux-node2:
   host: 192.168.56.12
@@ -23,8 +21,6 @@ linux-node2:
   minion_opts:
     grains:
       k8s-role: node
-      etcd-role: node
-      etcd-name: etcd-node2
 
 linux-node3:
   host: 192.168.56.13
@@ -33,5 +29,3 @@ linux-node3:
   minion_opts:
     grains:
       k8s-role: node
-      etcd-role: node 
-      etcd-name: etcd-node3
