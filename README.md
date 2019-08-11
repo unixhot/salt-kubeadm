@@ -6,18 +6,15 @@
 
 - 测试通过系统：CentOS 7.4
 - salt-ssh:     2017.7.4
-- Kubernetes：  v1.10.3
-- Etcd:         v3.3.1
-- Docker:       17.12.1-ce
-- Flannel：     v0.10.0
-- CNI-Plugins： v0.7.0
+- kubernetes：  v1.15.1
+- docker-ce:    18.09.7
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
 
 ## 架构介绍
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.10.3，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.15.1，保证稳定性。
 
 ## 技术交流QQ群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
@@ -159,17 +156,8 @@ linux-node3:
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
 
-#设置ETCD集群访问地址（必须修改）
-ETCD_ENDPOINTS: "https://192.168.56.11:2379,https://192.168.56.12:2379,https://192.168.56.13:2379"
-
-#设置ETCD集群初始化列表（必须修改）
-ETCD_CLUSTER: "etcd-node1=https://192.168.56.11:2380,etcd-node2=https://192.168.56.12:2380,etcd-node3=https://192.168.56.13:2380"
-
 #通过Grains FQDN自动获取本机IP地址，请注意保证主机名解析到本机IP地址
 NODE_IP: {{ grains['fqdn_ip4'][0] }}
-
-#设置BOOTSTARP的TOKEN，可以自己生成
-BOOTSTRAP_TOKEN: "ad6d5bb607a186796d8861557df0d17f"
 
 #配置Service IP地址段
 SERVICE_CIDR: "10.1.0.0/16"
@@ -199,13 +187,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 
-5.2 部署Etcd，由于Etcd是基础组建，需要先部署，目标为部署etcd的节点。
-```
-[root@linux-node1 ~]# salt-ssh -L 'linux-node1,linux-node2,linux-node3' state.sls k8s.etcd
-```
-注：如果执行失败，新手建议推到重来，请检查各个节点的主机名解析是否正确（监听的IP地址依赖主机名解析）。
-
-5.3 部署K8S集群
+5.2 部署K8S集群
 ```
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
