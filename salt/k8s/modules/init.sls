@@ -27,3 +27,9 @@ kube-ipvs:
     - mode: 755
   cmd.run:
     - name: source /etc/sysconfig/modules/ipvs.modules
+
+kube-nfs:
+  pkg.installed:
+    - pkgs:
+      - nfs-utils
+      - rpcbind

@@ -1,0 +1,2 @@
+/opt/k8s-nfs *(rw,sync,no_root_squash)
+
