@@ -194,8 +194,6 @@ NAME                 STATUS    MESSAGE             ERROR
 scheduler            Healthy   ok                  
 controller-manager   Healthy   ok                  
 etcd-0               Healthy   {"health":"true"}   
-etcd-2               Healthy   {"health":"true"}   
-etcd-1               Healthy   {"health":"true"}   
 
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
@@ -209,6 +207,7 @@ NAME            STATUS    ROLES     AGE       VERSION
 [root@linux-node1 ~]# kubectl run net-test --image=alpine --replicas=2 sleep 360000
 deployment "net-test" created
 需要等待拉取镜像，可能稍有的慢，请等待。
+
 [root@linux-node1 ~]# kubectl get pod -o wide
 NAME                        READY     STATUS    RESTARTS   AGE       IP          NODE
 net-test-5767cb94df-n9lvk   1/1       Running   0          14s       10.2.12.2   192.168.56.13
