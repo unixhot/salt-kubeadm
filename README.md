@@ -176,7 +176,23 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
-由于包比较大，这里执行时间较长，5分钟+，喝杯咖啡休息一下，如果执行有失败可以再次执行即可！
+喝杯咖啡休息一下，如果执行有失败可以再次执行即可！
+
+5.3 初始化Master节点
+```
+[root@linux-node1 ~]# kubeadm init --config kubeadm.yml --ignore-preflight-errors=Swap,NumCPU 
+[root@linux-node1 ~]# mkdir -p $HOME/.kube
+[root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+[root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+5.4 部署网络插件
+```
+[root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
+```
+
+5.5 节点加入集群
+
 
 ## 6.测试Kubernetes安装
 ```
@@ -246,20 +262,6 @@ linux-node4:
       k8s-role: node
 [root@linux-node1 ~]# salt-ssh 'linux-node4' state.highstate
 ```
-
-## 9.下一步要做什么？
-
-你可以安装Kubernetes必备的插件
-<table border="0">
-    <tr>
-        <td><strong>必备插件</strong></td>
-        <td><a href="docs/coredns.md">1.CoreDNS部署</a></td>
-        <td><a href="docs/dashboard.md">2.Dashboard部署</a></td>
-        <td><a href="docs/heapster.md">3.Heapster部署</a></td>
-        <td><a href="docs/ingress.md">4.Ingress部署</a></td>
-        <td><a href="https://github.com/unixhot/devops-x">5.CI/CD</a></td>
-    </tr>
-</table>
 
 ### 培训教学
 
