@@ -10,6 +10,7 @@
 
 include:
   - k8s.modules.init
+  - k8s.modules.repo
 
 kubelet-install:
   pkg.installed:
