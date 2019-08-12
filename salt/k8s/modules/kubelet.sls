@@ -6,16 +6,15 @@
 # Description:  Kubernetes Node kubelet
 #******************************************
 
-{% set k8s_version = "1.15.1" %}
+{% set k8s_version = "1.15.1-0" %}
 
 include:
   - k8s.modules.init
 
 kubelet-install:
   pkg.installed:
-    - pkgs:
-      - kubelet-{{ k8s_version }}
-      - ipvsadm
+    - name: kubelet
+    - version: {{ k8s_version }}
     - require:
       - file: k8s-repo
   file.managed:
