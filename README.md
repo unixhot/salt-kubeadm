@@ -164,11 +164,11 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
-喝杯咖啡休息一下，如果执行有失败可以再次执行即可！
+喝杯咖啡休息一下，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML
 
 5.3 初始化Master节点
 ```
-[root@linux-node1 ~]# kubeadm init --config kubeadm.yml --ignore-preflight-errors=Swap,NumCPU 
+[root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=Swap,NumCPU 
 [root@linux-node1 ~]# mkdir -p $HOME/.kube
 [root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
