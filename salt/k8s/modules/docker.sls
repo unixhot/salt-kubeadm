@@ -15,12 +15,12 @@ docker-install:
     - mode: 644
   pkg.installed:
     - name: docker-ce
-    - version: 18.09.7
+    - version: 3:18.09.7-3.el7
       
 docker-cli-install:
   pkg.installed:
     - name: docker-ce-cli
-    - version: 18.09.7
+    - version: 1:18.09.7-3.el7
 
 docker-config-dir:
   file.directory:
