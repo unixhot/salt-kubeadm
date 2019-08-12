@@ -8,6 +8,7 @@
 - salt-ssh:     2017.7.4
 - kubernetes：  v1.15.1
 - docker-ce:    18.09.7
+
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
 
 ## 手工部署
@@ -22,19 +23,6 @@
 
 ## 技术交流QQ群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
-
-# 使用手册
-<table border="0">
-    <tr>
-        <td><strong>必备插件</strong></td>
-        <td><a href="docs/coredns.md">1.CoreDNS部署</a></td>
-        <td><a href="docs/dashboard.md">2.Dashboard部署</a></td>
-        <td><a href="docs/heapster.md">3.Heapster部署</a></td>
-        <td><a href="docs/ingress.md">4.Ingress部署</a></td>
-        <td><a href="https://github.com/unixhot/devops-x">5.CI/CD</a></td>
-        <td><a href="docs/helm.md">6.Helm部署</a></td>
-    </tr>
-</table>
 
 ## 案例架构图
 
@@ -212,8 +200,10 @@ controller-manager   Healthy   ok
 etcd-0               Healthy   {"health":"true"}   
 etcd-2               Healthy   {"health":"true"}   
 etcd-1               Healthy   {"health":"true"}   
+
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
+192.168.56.11   Ready     master    1m        v1.15.1
 192.168.56.12   Ready     <none>    1m        v1.15.1
 192.168.56.13   Ready     <none>    1m        v1.15.1
 ```
@@ -245,15 +235,6 @@ PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 
-
-确认服务能够执行 logs exec 等指令;kubectl logs -f net-test-5767cb94df-n9lvk,此时会出现如下报错:
-[root@linux-node1 ~]# kubectl logs net-test-5767cb94df-n9lvk
-error: You must be logged in to the server (the server has asked for the client to provide credentials ( pods/log net-test-5767cb94df-n9lvk))
-
-
-由于上述权限问题，我们必需创建一个 apiserver-to-kubelet-rbac.yml 来定义权限，以供我们执行 logs、exec 等指令;
-[root@linux-node1 ~]# kubectl apply -f /srv/addons/apiserver-to-kubelet-rbac.yml
-然后执行kubctl logs验证是否成功.
 ```
 ## 8.如何新增Kubernetes节点
 
