@@ -11,11 +11,17 @@
 include:
   - k8s.modules.repo
 
+kubectl-install:
+  pkg.installed:
+    - name: kubectl
+    - version: 1.15.1-0
+    - require:
+      - file: k8s-repo
+
 kubeadm-install:
   pkg.installed:
-    - pkgs:
-      - kubeadm-1.15.1
-      - kubectl-1.15.1
+    - name: kubeadm
+    - version: 1.15.1-0
     - require:
       - file: k8s-repo
   file.managed:
