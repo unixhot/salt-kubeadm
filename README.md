@@ -192,7 +192,16 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 
 5.5 节点加入集群
-
+1.在Master节点上输出加入集群的命令：
+```
+[root@linux-node1 ~]# kubeadm token create --print-join-command
+kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 
+```
+2.在Node节点上执行上面输出的命令，进行部署并加入集群，注意如果节点存在交换分区请增加--ignore-preflight-errors=Swap参数。
+```
+[root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
+[root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
+```
 
 ## 6.测试Kubernetes安装
 ```
