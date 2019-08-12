@@ -15,13 +15,17 @@ docker-install:
     - mode: 644
   pkg.installed:
     - name: docker-ce
-    - version: 18.09.7-3
+    - version: 18.09.7
       
 docker-cli-install:
   pkg.installed:
     - name: docker-ce-cli
-    - version: 18.09.7-3
+    - version: 18.09.7
 
+docker-config-dir:
+  file.directory:
+    - name: /etc/docker
+    
 docker-daemon-config:
   file.managed:
     - name: /etc/docker/daemon.json
