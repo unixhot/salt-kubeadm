@@ -24,10 +24,6 @@
 ## 技术交流QQ群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
 
-## 案例架构图
-
-  ![架构图](https://github.com/unixhot/salt-kubernetes/blob/master/docs/K8S.png)
-
 ## 1.系统初始化(必备)
 
 1.1 设置主机名！！！
