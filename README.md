@@ -160,17 +160,20 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
-喝杯咖啡休息一下，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML
+喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。
 
 5.3 初始化Master节点
+  
+如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=Swap,NumCPU。
 ```
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=Swap,NumCPU 
+#需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
 [root@linux-node1 ~]# mkdir -p $HOME/.kube
 [root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-5.4 部署网络插件
+5.4 部署网络插件Flannel 
 ```
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
@@ -185,6 +188,7 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 ```
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
+
 ```
 
 ## 6.测试Kubernetes安装
@@ -201,6 +205,7 @@ NAME            STATUS    ROLES     AGE       VERSION
 192.168.56.12   Ready     <none>    1m        v1.15.1
 192.168.56.13   Ready     <none>    1m        v1.15.1
 ```
+
 ## 7.测试Kubernetes集群和Flannel网络
 
 ```
