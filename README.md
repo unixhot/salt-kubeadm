@@ -4,16 +4,13 @@
 
 ## 版本明细：Release-v1.15.1
 
+- 支持高可用HA
 - 测试通过系统：CentOS 7.4
 - salt-ssh:     2017.7.4
 - kubernetes：  v1.15.1
 - docker-ce:    18.09.7
 
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
-
-## 手工部署
-
-请参考开源书籍：[Docker和Kubernetes实践指南](http://k8s.unixhot.com) 第五章节内容。
 
 ## 架构介绍
 1. 使用Salt Grains进行角色定义，增加灵活性。
@@ -23,6 +20,12 @@
 
 ## 技术交流QQ群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
+
+
+# 部署手册
+
+请参考开源书籍：[Docker和Kubernetes实践指南](http://k8s.unixhot.com) 第五章节内容。
+
 
 ## 1.系统初始化(必备)
 
@@ -148,7 +151,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 
 ```
 
-## 5.执行SaltStack状态
+## 5.单Master集群部署
 
 5.1 测试Salt SSH联通性
 ```
@@ -253,3 +256,4 @@ linux-node4:
 [root@linux-node1 ~]# salt-ssh 'linux-node4' state.highstate
 ```
 
+## Kubernetes高可用多Master部署
