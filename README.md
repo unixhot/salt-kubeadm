@@ -7,7 +7,7 @@
 - 支持高可用HA
 - 测试通过系统：CentOS 7.x
 - salt-ssh:     2017.7.4
-- kubernetes：  v1.16.1
+- kubernetes：  v1.15.4
 - docker-ce:    18.09.7
 
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
@@ -208,24 +208,29 @@ etcd-0               Healthy   {"health":"true"}
 
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.15.1
-192.168.56.12   Ready     <none>    1m        v1.15.1
-192.168.56.13   Ready     <none>    1m        v1.15.1
+192.168.56.11   Ready     master    1m        v1.15.4
+192.168.56.12   Ready     <none>    1m        v1.15.4
+192.168.56.13   Ready     <none>    1m        v1.15.4
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
 
+1. 创建Deployment测试
 ```
 [root@linux-node1 ~]# kubectl run net-test --image=alpine --replicas=2 sleep 360000
 deployment "net-test" created
 需要等待拉取镜像，可能稍有的慢，请等待。
+```
 
+2. 查看创建状态
+```
 [root@linux-node1 ~]# kubectl get pod -o wide
 NAME                        READY     STATUS    RESTARTS   AGE       IP          NODE
 net-test-5767cb94df-n9lvk   1/1       Running   0          14s       10.2.12.2   192.168.56.13
 net-test-5767cb94df-zclc5   1/1       Running   0          14s       10.2.24.2   192.168.56.12
-
-测试联通性，如果都能ping通，说明Kubernetes集群部署完毕，有问题请QQ群交流。
+```
+3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕，有问题请QQ群交流。
+```
 [root@linux-node1 ~]# ping -c 1 10.2.12.2
 PING 10.2.12.2 (10.2.12.2) 56(84) bytes of data.
 64 bytes from 10.2.12.2: icmp_seq=1 ttl=61 time=8.72 ms
