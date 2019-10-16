@@ -257,9 +257,12 @@ rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 ```
 ## 8.如何新增Kubernetes节点
 
-- 1.设置SSH无密码登录
-- 2.在/etc/salt/roster里面，增加对应的机器
-- 3.执行SaltStack状态salt-ssh '*' state.highstate。
+1.设置SSH无密码登录
+```
+[root@linux-node1 ~]# ssh-copy-id linux-node3
+```
+
+2.在/etc/salt/roster里面，增加对应的机器
 ```
 [root@linux-node1 ~]# vim /etc/salt/roster 
 linux-node4:
@@ -269,7 +272,11 @@ linux-node4:
   minion_opts:
     grains:
       k8s-role: node
+```
+
+3.执行SaltStack状态salt-ssh '*' state.highstate。
+```
 [root@linux-node1 ~]# salt-ssh 'linux-node4' state.highstate
 ```
 
-## Kubernetes高可用多Master部署
+## Kubernetes高可用多Master部署(待更新)
