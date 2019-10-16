@@ -14,14 +14,14 @@ include:
 kubectl-install:
   pkg.installed:
     - name: kubectl
-    - version: 1.15.1-0
+    - version: {{ pillar['K8S_VERSION'] }}
     - require:
       - file: k8s-repo
 
 kubeadm-install:
   pkg.installed:
     - name: kubeadm
-    - version: 1.15.1-0
+    - version: {{ pillar['K8S_VERSION'] }}
     - require:
       - file: k8s-repo
   file.managed:
@@ -34,4 +34,5 @@ kubeadm-install:
     - defaults:
         SERVICE_CIDR: {{ pillar['SERVICE_CIDR'] }}  
         POD_CIDR: {{ pillar['POD_CIDR'] }}  
-        MASTER_IP: {{ pillar['MASTER_IP'] }}  
+        MASTER_IP: {{ pillar['MASTER_IP'] }}
+        K8S_VERSION: {{ pillar['K8S_VERSION'] }}
