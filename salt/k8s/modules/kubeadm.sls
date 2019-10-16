@@ -6,8 +6,6 @@
 # Description:  Kubeadm init YAML
 #******************************************
 
-{% set k8s_version = "1.15.1" %}
-
 include:
   - k8s.modules.repo
 
