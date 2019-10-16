@@ -2,7 +2,7 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.16.1
+## 版本明细：Release-v1.15.4
 
 - 支持高可用HA
 - 测试通过系统：CentOS 7.x
@@ -170,7 +170,10 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=Swap,NumCPU。
 ```
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=Swap,NumCPU 
-#需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
+```
+需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
+安装完毕后配置
+```
 [root@linux-node1 ~]# mkdir -p $HOME/.kube
 [root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
@@ -182,12 +185,13 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 
 5.5 节点加入集群
-1.在Master节点上输出加入集群的命令：
+
+1. 在Master节点上输出加入集群的命令：
 ```
 [root@linux-node1 ~]# kubeadm token create --print-join-command
 kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 
 ```
-2.在Node节点上执行上面输出的命令，进行部署并加入集群，注意如果节点存在交换分区请增加--ignore-preflight-errors=Swap参数。
+2. 在Node节点上执行上面输出的命令，进行部署并加入集群，注意如果节点存在交换分区请增加--ignore-preflight-errors=Swap参数。
 ```
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
