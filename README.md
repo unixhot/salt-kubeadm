@@ -180,6 +180,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ```
 
 5.4 部署网络插件Flannel 
+
 ```
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
@@ -191,6 +192,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 [root@linux-node1 ~]# kubeadm token create --print-join-command
 kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 
 ```
+
 2. 在Node节点上执行上面输出的命令，进行部署并加入集群，注意如果节点存在交换分区请增加--ignore-preflight-errors=Swap参数。
 ```
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611 --ignore-preflight-errors=Swap
@@ -199,13 +201,18 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 ```
 
 ## 6.测试Kubernetes安装
+
+1. 查看组件状态
 ```
 [root@linux-node1 ~]# kubectl get cs
 NAME                 STATUS    MESSAGE             ERROR
 scheduler            Healthy   ok                  
 controller-manager   Healthy   ok                  
 etcd-0               Healthy   {"health":"true"}   
+```
 
+2. 查看节点状态
+```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
 192.168.56.11   Ready     master    1m        v1.15.4
