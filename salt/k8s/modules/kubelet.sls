@@ -6,8 +6,6 @@
 # Description:  Kubernetes Node kubelet
 #******************************************
 
-{% set k8s_version = "1.15.1-0" %}
-
 include:
   - k8s.modules.init
   - k8s.modules.repo
