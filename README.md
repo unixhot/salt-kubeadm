@@ -2,12 +2,12 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.15.1
+## 版本明细：Release-v1.16.1
 
 - 支持高可用HA
-- 测试通过系统：CentOS 7.4
+- 测试通过系统：CentOS 7.x
 - salt-ssh:     2017.7.4
-- kubernetes：  v1.15.1
+- kubernetes：  v1.16.1
 - docker-ce:    18.09.7
 
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
