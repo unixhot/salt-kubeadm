@@ -125,6 +125,9 @@ linux-node3:
 ## 4.修改对应的配置参数，本项目使用Salt Pillar保存配置
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
+#设置需要安装的Kubernetes版本
+K8S_VERSION: "1.16.2"
+
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
 
