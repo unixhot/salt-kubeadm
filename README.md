@@ -258,6 +258,24 @@ PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 
 ```
+## 8.部署Ingress和Helm
+
+> 在Kubernetes1.16版本， extensions/v1beta1 已经被 apps/v1 替代，所以很多之前的资源部署会遇到问题，例如Helm就需要安装Helm v2.16.1版本。
+
+1.部署Ingress
+```
+[root@linux-node1 ~]# kubectl create -f /srv/addons/ingress/
+```
+
+2.部署Helm
+```
+[root@k8s-node1 ~]# kubectl create serviceaccount --namespace kube-system helm-tiller
+serviceaccount/helm-tiller created
+[root@k8s-node1 ~]# kubectl create clusterrolebinding helm-tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:helm-tiller
+clusterrolebinding.rbac.authorization.k8s.io/helm-tiller-cluster-rule created
+[root@k8s-node1 ~]# helm init --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.1 --stable-repo-url http://mirror.azure.cn/kubernetes/charts/ --service-account=helm-tiller
+
+```
 
 ## 9.如何新增Kubernetes节点
 
