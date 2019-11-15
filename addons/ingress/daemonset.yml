@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: traefik-ingress-lb
@@ -6,6 +6,9 @@ metadata:
   labels:
     k8s-app: traefik-ingress-lb
 spec:
+  selector:
+    matchLabels:
+      k8s-app: traefik-ingress-lb
   template:
     metadata:
       labels:
@@ -17,7 +20,7 @@ spec:
       restartPolicy: Always
       serviceAccountName: ingress
       containers:
-      - image: traefik:v1.6
+      - image: traefik:v1.7.12
         name: traefik-ingress-lb
         resources:
           limits:
