@@ -228,9 +228,9 @@ etcd-0               Healthy   {"health":"true"}
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.16.2
-192.168.56.12   Ready     <none>    1m        v1.16.2
-192.168.56.13   Ready     <none>    1m        v1.16.2
+192.168.56.11   Ready     master    1m        v1.16.3
+192.168.56.12   Ready     <none>    1m        v1.16.3
+192.168.56.13   Ready     <none>    1m        v1.16.3
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
