@@ -274,7 +274,13 @@ serviceaccount/helm-tiller created
 [root@k8s-node1 ~]# kubectl create clusterrolebinding helm-tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:helm-tiller
 clusterrolebinding.rbac.authorization.k8s.io/helm-tiller-cluster-rule created
 [root@k8s-node1 ~]# helm init --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.1 --stable-repo-url http://mirror.azure.cn/kubernetes/charts/ --service-account=helm-tiller
+```
 
+3.验证部署
+```
+[root@k8s-node1 ~]# helm version
+Client: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
+Server: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
 ```
 
 ## 9.如何新增Kubernetes节点
