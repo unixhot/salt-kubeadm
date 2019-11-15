@@ -189,7 +189,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
 
-> 在新版本的Flannel的YAML中增加CNI的版本，所以使用老的Flannel资源配置会有以下的报错。
+> 在新版本的Flannel的YAML中增加CNI的版本， "cniVersion": "0.2.0",所以使用老的Flannel资源配置会有以下的报错。
 ```
 Nov 15 12:30:19 k8s-node1 kubelet: E1115 12:30:19.825818    7637 kubelet.go:2187] Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config uninitialized
 Nov 15 12:30:24 k8s-node1 kubelet: W1115 12:30:24.123610    7637 cni.go:202] Error validating CNI config &{cbr0  false [0xc0003a1360 0xc0003a14c0] [123 10 32 32 34 110 97 109 101 34 58 32 34 99 98 114 48 34 44 10 32 32 34 112 108 117 103 105 110 115 34 58 32 91 10 32 32 32 32 123 10 32 32 32 32 32 32 34 116 121 112 101 34 58 32 34 102 108 97 110 110 101 108 34 44 10 32 32 32 32 32 32 34 100 101 108 101 103 97 116 101 34 58 32 123 10 32 32 32 32 32 32 32 32 34 104 97 105 114 112 105 110 77 111 100 101 34 58 32 116 114 117 101 44 10 32 32 32 32 32 32 32 32 34 105 115 68 101 102 97 117 108 116 71 97 116 101 119 97 121 34 58 32 116 114 117 101 10 32 32 32 32 32 32 125 10 32 32 32 32 125 44 10 32 32 32 32 123 10 32 32 32 32 32 32 34 116 121 112 101 34 58 32 34 112 111 114 116 109 97 112 34 44 10 32 32 32 32 32 32 34 99 97 112 97 98 105 108 105 116 105 101 115 34 58 32 123 10 32 32 32 32 32 32 32 32 34 112 111 114 116 77 97 112 112 105 110 103 115 34 58 32 116 114 117 101 10 32 32 32 32 32 32 125 10 32 32 32 32 125 10 32 32 93 10 125 10]}: [plugin flannel does not support config version ""]
