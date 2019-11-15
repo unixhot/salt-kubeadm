@@ -10,9 +10,10 @@
 - kubernetes：  v1.16.2
 - docker-ce:    18.09.7
 
-建议部署节点：最少三个节点，请配置好主机名解析（必备）
+> 注意：Kubernetes 1.16版本中很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，详情可参考[Kubernetes 1.16 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.16.md)
 
 ### 架构介绍
+建议部署节点：最少三个节点，请配置好主机名解析（必备）
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
