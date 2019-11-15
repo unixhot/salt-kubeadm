@@ -258,7 +258,8 @@ PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 
 ```
-## 8.如何新增Kubernetes节点
+
+## 9.如何新增Kubernetes节点
 
 1.设置SSH无密码登录
 ```
