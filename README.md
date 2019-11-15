@@ -125,6 +125,9 @@ linux-node3:
 ## 4.修改对应的配置参数，本项目使用Salt Pillar保存配置
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
+#设置需要安装的Kubernetes版本
+K8S_VERSION: "1.16.2"
+
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
 
@@ -255,7 +258,8 @@ PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 
 ```
-## 8.如何新增Kubernetes节点
+
+## 9.如何新增Kubernetes节点
 
 1.设置SSH无密码登录
 ```
