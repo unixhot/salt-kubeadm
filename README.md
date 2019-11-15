@@ -2,12 +2,12 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.15.4
+## 版本明细：Release-v1.16.2
 
 - 支持高可用HA
 - 测试通过系统：CentOS 7.x
 - salt-ssh:     2017.7.4
-- kubernetes：  v1.15.4
+- kubernetes：  v1.16.2
 - docker-ce:    18.09.7
 
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
@@ -16,7 +16,7 @@
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.15.1，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.16.2，保证稳定性。
 
 ### 技术交流群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
@@ -215,9 +215,9 @@ etcd-0               Healthy   {"health":"true"}
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.15.4
-192.168.56.12   Ready     <none>    1m        v1.15.4
-192.168.56.13   Ready     <none>    1m        v1.15.4
+192.168.56.11   Ready     master    1m        v1.16.2
+192.168.56.12   Ready     <none>    1m        v1.16.2
+192.168.56.13   Ready     <none>    1m        v1.16.2
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
