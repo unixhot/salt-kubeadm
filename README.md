@@ -278,18 +278,17 @@ rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 
 2.部署Helm
 ```
-[root@k8s-node1 ~]# kubectl create serviceaccount --namespace kube-system helm-tiller
-serviceaccount/helm-tiller created
-[root@k8s-node1 ~]# kubectl create clusterrolebinding helm-tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:helm-tiller
-clusterrolebinding.rbac.authorization.k8s.io/helm-tiller-cluster-rule created
-[root@k8s-node1 ~]# helm init --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.16.1 --stable-repo-url http://mirror.azure.cn/kubernetes/charts/ --service-account=helm-tiller
+[root@linux-node1 ~]# cd /usr/local/src
+[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+[root@linux-node1 src]# tar zxf helm-v3.0.2-linux-amd64.tar.gz
+[root@linux-node1 src]# mv linux-amd64/helm /usr/local/bin/
 ```
 
-3.验证部署
+3.验证安装是否成功
 ```
-[root@k8s-node1 ~]# helm version
-Client: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
-Server: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
+[root@linux-node1 ~]# helm version
+version.BuildInfo{Version:"v3.0.2", GitCommit:"19e47ee3283ae98139d98460de796c1be1e3975f", GitTreeState:"clean", GoVersion:"go1.13.5"}
+
 ```
 
 ## 9.如何新增Kubernetes节点
