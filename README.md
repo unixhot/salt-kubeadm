@@ -165,6 +165,8 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 5.2 部署K8S集群
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
+#保证机器没有SWAP分区，如果存在需要关闭，如果不是全新的系统，请谨慎执行关闭交换分区操作！
+[root@linux-node1 ~]# swapoff -a
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。
