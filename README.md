@@ -223,16 +223,7 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 
 ## 6.测试Kubernetes安装
 
-1. 查看组件状态
-```
-[root@linux-node1 ~]# kubectl get cs
-NAME                 STATUS    MESSAGE             ERROR
-scheduler            Healthy   ok                  
-controller-manager   Healthy   ok                  
-etcd-0               Healthy   {"health":"true"}   
-```
-
-2. 查看节点状态
+### 查看节点状态
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
