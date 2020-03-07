@@ -2,22 +2,22 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.16.4
+## 版本明细：Release-v1.17.3
 
 - 支持高可用HA
 - 测试通过系统：CentOS 7.x
 - salt-ssh:     2017.7.4
-- kubernetes：  v1.16.4
+- kubernetes：  v1.17.3
 - docker-ce:    18.09.7
 
-> 注意：Kubernetes 1.16版本中很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.16 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.16.md)
+> 注意：Kubernetes 1.16版本中很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.17 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.17.md)
 
 ### 架构介绍
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.16.4，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.17.3，保证稳定性。
 
 ### 技术交流群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
@@ -127,7 +127,7 @@ linux-node3:
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
-K8S_VERSION: "1.16.4"
+K8S_VERSION: "1.17.3"
 
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
@@ -169,13 +169,14 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 [root@linux-node1 ~]# swapoff -a
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
-喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。
+
+> 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。
 
 5.3 初始化Master节点
   
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=Swap,NumCPU。
 ```
-# 你可以对kubeadm.yml进行定制
+# 你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS
 [root@linux-node1 ~]# vim /etc/sysconfig/kubeadm.yml
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=Swap,NumCPU 
 ```
@@ -200,8 +201,6 @@ Nov 15 12:30:24 k8s-node1 kubelet: W1115 12:30:24.123610    7637 cni.go:202] Err
 Nov 15 12:30:24 k8s-node1 kubelet: W1115 12:30:24.123737    7637 cni.go:237] Unable to update cni config: no valid networks found in /etc/cni/net.d
 ```
 
-
-
 5.5 节点加入集群
 
 1. 在Master节点上输出加入集群的命令：
@@ -223,13 +222,23 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 
 ## 6.测试Kubernetes安装
 
+### 查看组件状态
+
+```
+[root@linux-node1 ~]# kubectl get cs
+NAME                 STATUS    MESSAGE             ERROR
+controller-manager   Healthy   ok                  
+scheduler            Healthy   ok                  
+etcd-0               Healthy   {"health":"true"}   
+```
+
 ### 查看节点状态
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.16.3
-192.168.56.12   Ready     <none>    1m        v1.16.3
-192.168.56.13   Ready     <none>    1m        v1.16.3
+192.168.56.11   Ready     master    1m        v1.17.3
+192.168.56.12   Ready     <none>    1m        v1.17.3
+192.168.56.13   Ready     <none>    1m        v1.17.3
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
@@ -248,6 +257,7 @@ NAME                        READY     STATUS    RESTARTS   AGE       IP         
 net-test-5767cb94df-n9lvk   1/1       Running   0          14s       10.2.12.2   192.168.56.13
 net-test-5767cb94df-zclc5   1/1       Running   0          14s       10.2.24.2   192.168.56.12
 ```
+
 3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕，有问题请QQ群交流。
 ```
 [root@linux-node1 ~]# ping -c 1 10.2.12.2
@@ -267,27 +277,22 @@ PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 
 ```
-## 8.部署Ingress和Helm
+## 8.部署Helm
 
-> 在Kubernetes1.16版本， extensions/v1beta1 已经被 apps/v1 替代，所以很多之前的资源部署会遇到问题，例如Helm就需要安装Helm v2.16.1版本。
+> HELM是Kubernetes的包管理工具。使用Helm可以快速的安装和部署应用到Kubernetes上。
 
-1.部署Ingress
-```
-[root@linux-node1 ~]# kubectl create -f /srv/addons/ingress/
-```
-
-2.部署Helm
+1.部署Helm
 ```
 [root@linux-node1 ~]# cd /usr/local/src
-[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
-[root@linux-node1 src]# tar zxf helm-v3.0.2-linux-amd64.tar.gz
+[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.1.0-linux-amd64.tar.gz
+[root@linux-node1 src]# tar zxf helm-v3.1.0-linux-amd64.tar.gz
 [root@linux-node1 src]# mv linux-amd64/helm /usr/local/bin/
 ```
 
-3.验证安装是否成功
+2.验证安装是否成功
 ```
 [root@linux-node1 ~]# helm version
-version.BuildInfo{Version:"v3.0.2", GitCommit:"19e47ee3283ae98139d98460de796c1be1e3975f", GitTreeState:"clean", GoVersion:"go1.13.5"}
+version.BuildInfo{Version:"v3.1.0", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
 
 ```
 
