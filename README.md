@@ -287,10 +287,14 @@ NAME                      STATUS   ROLES    AGE    VERSION
 linux-node1.example.com   Ready    master   120m   v1.17.3
 linux-node2.example.com   Ready    <none>   113m   v1.17.3
 linux-node3.example.com   Ready    <none>   108m   v1.17.3
+
 [root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
 
 
 [root@linux-node1 ~]# kubectl create -f ingress-nginx.yaml 
+[root@linux-node1 ~]# kubectl get pod -n ingress-nginx
+NAME                             READY   STATUS    RESTARTS   AGE
+nginx-ingress-controller-8nknv   1/1     Running   0          55s
 ```
 
 
