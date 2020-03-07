@@ -275,9 +275,26 @@ PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
 --- 10.2.24.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
+```
+
+# 必备插件
+
+## 1. 部署Ingress-Control
 
 ```
-## 8.部署Helm
+[root@linux-node1 ~]# kubectl get node
+NAME                      STATUS   ROLES    AGE    VERSION
+linux-node1.example.com   Ready    master   120m   v1.17.3
+linux-node2.example.com   Ready    <none>   113m   v1.17.3
+linux-node3.example.com   Ready    <none>   108m   v1.17.3
+[root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
+
+
+[root@linux-node1 ~]# kubectl create -f ingress-nginx.yaml 
+```
+
+
+## 2.部署Helm 3.0
 
 > HELM是Kubernetes的包管理工具。使用Helm可以快速的安装和部署应用到Kubernetes上。
 
