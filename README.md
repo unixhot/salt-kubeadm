@@ -166,7 +166,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
 #保证机器没有SWAP分区，如果存在需要关闭，如果不是全新的系统，请谨慎执行关闭交换分区操作！
-[root@linux-node1 ~]# swapoff -a
+[root@linux-node1 ~]# salt-ssh '*' -r 'swapoff -a'
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
 
@@ -212,11 +212,11 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 2. 在Node节点上执行上面输出的命令，进行部署并加入集群。
 ```
 #linux-node2.example.com
-[root@linux-node2 ~]# swapoff -a
+
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 
 #linux-node3.example.com
-[root@linux-node3 ~]# swapoff -a
+
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
