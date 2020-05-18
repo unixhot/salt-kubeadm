@@ -20,7 +20,7 @@ docker-install:
 docker-cli-install:
   pkg.installed:
     - name: docker-ce-cli
-    - version: 3:19.03.8-3.el7
+    - version: 1:19.03.8-3.el7
 
 docker-config-dir:
   file.directory:
