@@ -245,7 +245,7 @@ NAME            STATUS    ROLES     AGE       VERSION
 
 1. 创建Deployment测试
 ```
-[root@linux-node1 ~]# kubectl run net-test --image=alpine --replicas=2 sleep 360000
+[root@linux-node1 ~]# kubectl run net-test --image=alpine sleep 360000
 deployment "net-test" created
 需要等待拉取镜像，可能稍有的慢，请等待。
 ```
@@ -253,9 +253,8 @@ deployment "net-test" created
 2. 查看创建状态
 ```
 [root@linux-node1 ~]# kubectl get pod -o wide
-NAME                        READY     STATUS    RESTARTS   AGE       IP          NODE
-net-test-5767cb94df-n9lvk   1/1       Running   0          14s       10.2.12.2   192.168.56.13
-net-test-5767cb94df-zclc5   1/1       Running   0          14s       10.2.24.2   192.168.56.12
+NAME       READY   STATUS    RESTARTS   AGE   IP         NODE                      NOMINATED NODE   READINESS GATES
+net-test   1/1     Running   0          22s   10.2.12.2  linux-node2.example.com   <none>           <none>
 ```
 
 3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕，有问题请QQ群交流。
@@ -289,7 +288,6 @@ linux-node2.example.com   Ready    <none>   113m   v1.17.3
 linux-node3.example.com   Ready    <none>   108m   v1.17.3
 
 [root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
-
 
 [root@linux-node1 ~]# kubectl create -f ingress-nginx.yaml 
 [root@linux-node1 ~]# kubectl get pod -n ingress-nginx
