@@ -18,7 +18,7 @@ kube-sysctl:
 kube-ipvs:
   pkg.installed:
     - name: ipvsadm
-    - version: 1.27-7.el7
+    - version: 1.27-8.el7
   file.managed:
     - name: /etc/sysconfig/modules/ipvs.modules
     - source: salt://k8s/templates/system/ipvs.modules.template
