@@ -5,7 +5,7 @@
 # Organization: http://www.devopsedu.com/
 # Description:  Kubernetes Config with Pillar
 #********************************************
-K8S_VERSION: "1.16.9"
+K8S_VERSION: "1.18.3"
 
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
