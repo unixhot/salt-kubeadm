@@ -289,22 +289,22 @@ nginx-ingress-controller-8nknv   1/1     Running   0          55s
 ```
 
 
-## 2.部署Helm 3.0
+## 2.部署Helm3
 
 > HELM是Kubernetes的包管理工具。使用Helm可以快速的安装和部署应用到Kubernetes上。
 
 1.部署Helm
 ```
 [root@linux-node1 ~]# cd /usr/local/src
-[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.1.0-linux-amd64.tar.gz
-[root@linux-node1 src]# tar zxf helm-v3.1.0-linux-amd64.tar.gz
+[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
+[root@linux-node1 src]# tar zxf helm-v3.2.4-linux-amd64.tar.gz
 [root@linux-node1 src]# mv linux-amd64/helm /usr/local/bin/
 ```
 
 2.验证安装是否成功
 ```
 [root@linux-node1 ~]# helm version
-version.BuildInfo{Version:"v3.1.0", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
+version.BuildInfo{Version:"v3.2.4", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
 
 ```
 
