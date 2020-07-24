@@ -6,18 +6,18 @@
 
 - 支持高可用HA
 - 测试通过系统：CentOS 7.7
-- salt-ssh:     2017.7.4
+- salt-ssh:     3000.3
 - kubernetes：  v1.18.3
-- docker-ce:    18.09.7
+- docker-ce:    19.03.8
 
-> 注意：从Kubernetes 1.16版本中很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.18 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.18.md)
+> 注意：从Kubernetes 1.16版本开始很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.18 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.18.md)
 
 ### 架构介绍
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.18.0，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.18.3，保证稳定性。
 
 ### 技术交流群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
