@@ -2,12 +2,12 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.16.9
+## 版本明细：Release-v1.18.3
 
 - 支持高可用HA
 - 测试通过系统：CentOS 7.7
 - salt-ssh:     2017.7.4
-- kubernetes：  v1.16.9
+- kubernetes：  v1.18.3
 - docker-ce:    18.09.7
 
 > 注意：从Kubernetes 1.16版本中很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.18 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.18.md)
@@ -127,7 +127,7 @@ linux-node3:
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
-K8S_VERSION: "1.16.9"
+K8S_VERSION: "1.18.3"
 
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
@@ -194,13 +194,6 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
 
-> 在新版本的Flannel的YAML中增加CNI的版本， "cniVersion": "0.2.0",所以使用老的Flannel资源配置会有以下的报错。
-```
-Nov 15 12:30:19 k8s-node1 kubelet: E1115 12:30:19.825818    7637 kubelet.go:2187] Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config uninitialized
-Nov 15 12:30:24 k8s-node1 kubelet: W1115 12:30:24.123610    7637 cni.go:202] Error validating CNI config &{cbr0  false [0xc0003a1360 0xc0003a14c0] [123 10 32 32 34 110 97 109 101 34 58 32 34 99 98 114 48 34 44 10 32 32 34 112 108 117 103 105 110 115 34 58 32 91 10 32 32 32 32 123 10 32 32 32 32 32 32 34 116 121 112 101 34 58 32 34 102 108 97 110 110 101 108 34 44 10 32 32 32 32 32 32 34 100 101 108 101 103 97 116 101 34 58 32 123 10 32 32 32 32 32 32 32 32 34 104 97 105 114 112 105 110 77 111 100 101 34 58 32 116 114 117 101 44 10 32 32 32 32 32 32 32 32 34 105 115 68 101 102 97 117 108 116 71 97 116 101 119 97 121 34 58 32 116 114 117 101 10 32 32 32 32 32 32 125 10 32 32 32 32 125 44 10 32 32 32 32 123 10 32 32 32 32 32 32 34 116 121 112 101 34 58 32 34 112 111 114 116 109 97 112 34 44 10 32 32 32 32 32 32 34 99 97 112 97 98 105 108 105 116 105 101 115 34 58 32 123 10 32 32 32 32 32 32 32 32 34 112 111 114 116 77 97 112 112 105 110 103 115 34 58 32 116 114 117 101 10 32 32 32 32 32 32 125 10 32 32 32 32 125 10 32 32 93 10 125 10]}: [plugin flannel does not support config version ""]
-Nov 15 12:30:24 k8s-node1 kubelet: W1115 12:30:24.123737    7637 cni.go:237] Unable to update cni config: no valid networks found in /etc/cni/net.d
-```
-
 5.5 节点加入集群
 
 1. 在Master节点上输出加入集群的命令：
@@ -236,9 +229,9 @@ etcd-0               Healthy   {"health":"true"}
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.16.9
-192.168.56.12   Ready     <none>    1m        v1.16.9
-192.168.56.13   Ready     <none>    1m        v1.16.9
+192.168.56.11   Ready     master    1m        v1.18.3
+192.168.56.12   Ready     <none>    1m        v1.18.3
+192.168.56.13   Ready     <none>    1m        v1.18.3
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
@@ -283,9 +276,9 @@ rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME                      STATUS   ROLES    AGE    VERSION
-linux-node1.example.com   Ready    master   120m   v1.17.3
-linux-node2.example.com   Ready    <none>   113m   v1.17.3
-linux-node3.example.com   Ready    <none>   108m   v1.17.3
+linux-node1.example.com   Ready    master   120m   v1.18.3
+linux-node2.example.com   Ready    <none>   113m   v1.18.3
+linux-node3.example.com   Ready    <none>   108m   v1.18.3
 
 [root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
 
