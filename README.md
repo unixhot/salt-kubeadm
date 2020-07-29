@@ -188,7 +188,9 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-5.4 部署网络插件Flannel 
+5.4 部署网络插件Flannel
+
+> 如果你的网卡名称不是eth0，请修改对应参数
 
 ```
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
@@ -282,10 +284,7 @@ linux-node3.example.com   Ready    <none>   108m   v1.18.3
 
 [root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
 
-[root@linux-node1 ~]# kubectl create -f ingress-nginx.yaml 
-[root@linux-node1 ~]# kubectl get pod -n ingress-nginx
-NAME                             READY   STATUS    RESTARTS   AGE
-nginx-ingress-controller-8nknv   1/1     Running   0          55s
+[root@linux-node1 ~]# kubectl create -f /srv/addons/traefik-ingress/
 ```
 
 
@@ -312,7 +311,7 @@ version.BuildInfo{Version:"v3.2.4", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf
 
 1.设置SSH无密码登录
 ```
-[root@linux-node1 ~]# ssh-copy-id linux-node3
+[root@linux-node1 ~]# ssh-copy-id linux-node4
 ```
 
 2.在/etc/salt/roster里面，增加对应的机器
@@ -331,5 +330,3 @@ linux-node4:
 ```
 [root@linux-node1 ~]# salt-ssh 'linux-node4' state.highstate
 ```
-
-## Kubernetes高可用多Master部署(待更新)
