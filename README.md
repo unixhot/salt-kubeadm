@@ -32,19 +32,19 @@
 
 1.1 设置主机名！！！
 ```
-[root@linux-node1 ~]# cat /etc/hostname 
+[root@linux-node1 ~]# vim /etc/hostname 
 linux-node1.example.com
 
-[root@linux-node2 ~]# cat /etc/hostname 
+[root@linux-node2 ~]# vim /etc/hostname 
 linux-node2.example.com
 
-[root@linux-node3 ~]# cat /etc/hostname 
+[root@linux-node3 ~]# vim /etc/hostname 
 linux-node3.example.com
 
 ```
 1.2 设置/etc/hosts保证主机名能够解析
 ```
-[root@linux-node1 ~]# cat /etc/hosts
+[root@linux-node1 ~]# vim /etc/hosts
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 192.168.56.11 linux-node1 linux-node1.example.com
