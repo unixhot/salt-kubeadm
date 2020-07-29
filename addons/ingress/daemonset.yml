@@ -20,7 +20,7 @@ spec:
       restartPolicy: Always
       serviceAccountName: ingress
       containers:
-      - image: traefik:v1.7.12
+      - image: traefik:v1.7.20
         name: traefik-ingress-lb
         resources:
           limits:
