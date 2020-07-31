@@ -159,8 +159,9 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 
 5.1 测试Salt SSH联通性
 ```
-[root@linux-node1 ~]# salt-ssh '*' test.ping
+[root@linux-node1 ~]# salt-ssh -i '*' test.ping
 ```
+> 保证没有问题，都返回True再继续。
 
 5.2 部署K8S集群
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
