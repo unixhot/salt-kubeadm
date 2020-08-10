@@ -186,35 +186,48 @@ linux-node1:
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
 
-> 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。执行完毕之后请查看结果，如果都成功，即完成。
+> 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。执行完毕之后请查看结果，需要保证所有的Failed：为0，说明初始化成功。
+```
+Summary for linux-node3
+-------------
+Succeeded: 19 (changed=19)
+Failed:     0
+-------------
+Total states run:     19
+Total run time:  733.939 s
+```
 
 **5.3 初始化Master节点**
 
 在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
-  
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
+你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS
+
 ```
-# 你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS
 [root@linux-node1 ~]# vim /etc/sysconfig/kubeadm.yml
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=NumCPU 
 ```
-需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
-安装完毕后配置
+> 需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
+
+** 5.4 为kubectl准备配置文件**
+
+kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使用管理员的配置
+
 ```
 [root@linux-node1 ~]# mkdir -p $HOME/.kube
 [root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-**5.4 部署网络插件Flannel**
+**5.5 部署网络插件Flannel**
 
-> 如果你的网卡名称不是eth0，请修改对应参数
+> 需要保证所有Node的网卡名称一直，如果你的网卡名称不是eth0，请修改对应参数。 - --iface=eth0，修改为对应的网卡名称。
 
 ```
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
 
-**5.5 节点加入集群**
+**5.6 节点加入集群**
 
 1. 在Master节点上输出加入集群的命令：
 ```
@@ -223,12 +236,14 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 ```
 
 2. 在Node节点上执行上面输出的命令，进行部署并加入集群。
+
+> 如果执行的过程中，一直卡着无进度，请检查三台主机的时间是否同步，时间不同步会造成集群不正常，例如证书过期等。
 ```
-#linux-node2.example.com
+#在linux-node2.example.com上执行
 
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 
-#linux-node3.example.com
+#在linux-node3.example.com上执行
 
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
