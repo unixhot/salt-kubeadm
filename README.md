@@ -294,14 +294,6 @@ PING 10.2.12.2 (10.2.12.2) 56(84) bytes of data.
 --- 10.2.12.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 8.729/8.729/8.729/0.000 ms
-
-[root@linux-node1 ~]# ping -c 1 10.2.24.2
-PING 10.2.24.2 (10.2.24.2) 56(84) bytes of data.
-64 bytes from 10.2.24.2: icmp_seq=1 ttl=61 time=22.9 ms
-
---- 10.2.24.2 ping statistics ---
-1 packets transmitted, 1 received, 0% packet loss, time 0ms
-rtt min/avg/max/mdev = 22.960/22.960/22.960/0.000 ms
 ```
 
 # 必备插件
