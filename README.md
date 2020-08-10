@@ -30,7 +30,8 @@
 
 ## 1.系统初始化(必备)
 
-1.1 设置主机名！！！
+**1.1 设置主机名！！！**
+
 ```
 [root@linux-node1 ~]# vim /etc/hostname 
 linux-node1.example.com
@@ -42,7 +43,8 @@ linux-node2.example.com
 linux-node3.example.com
 
 ```
-1.2 设置/etc/hosts保证主机名能够解析
+**1.2 设置/etc/hosts保证主机名能够解析**
+
 ```
 [root@linux-node1 ~]# vim /etc/hosts
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
@@ -52,13 +54,15 @@ linux-node3.example.com
 192.168.56.13 linux-node3 linux-node3.example.com
 
 ```
-1.3 关闭SELinux
+**1.3 关闭SELinux**
+
 ```
 [root@linux-node1 ~]# vim /etc/sysconfig/selinux
 SELINUX=disabled #修改为disabled
 ```
 
-1.4 关闭NetworkManager和防火墙开启自启动
+**1.4 关闭NetworkManager和防火墙开启自启动**
+
 ```
 [root@linux-node1 ~]# systemctl stop firewalld && systemctl disable firewalld
 [root@linux-node1 ~]# systemctl stop NetworkManager && systemctl disable NetworkManager
@@ -66,7 +70,8 @@ SELINUX=disabled #修改为disabled
 
 ## 2.安装Salt-SSH并克隆本项目代码。
 
-2.1 设置部署节点到其它所有节点的SSH免密码登录（包括本机）
+**2.1 设置部署节点到其它所有节点的SSH免密码登录（包括本机）**
+
 ```bash
 [root@linux-node1 ~]# ssh-keygen -t rsa
 [root@linux-node1 ~]# ssh-copy-id linux-node1
@@ -74,7 +79,8 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# ssh-copy-id linux-node3
 ```
 
-2.2 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）
+**2.2 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）**
+
 ```
 [root@linux-node1 ~]# yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
 [root@linux-node1 ~]# yum install -y https://mirrors.aliyun.com/saltstack/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
@@ -82,7 +88,8 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# yum install -y salt-ssh git unzip
 ```
 
-2.3 获取本项目代码，并放置在/srv目录
+**2.3 获取本项目代码，并放置在/srv目录**
+
 ```
 [root@linux-node1 ~]# git clone https://github.com/unixhot/salt-kubeadm.git
 [root@linux-node1 ~]# cd salt-kubeadm/
@@ -157,7 +164,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 
 ## 5.单Master集群部署
 
-5.1 测试Salt SSH联通性
+**5.1 测试Salt SSH联通性**
 
 ```
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
@@ -170,7 +177,7 @@ linux-node1:
 ```
 > 保证没有问题，都返回True再继续。
 
-5.2 部署K8S集群
+**5.2 部署K8S集群**
 
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
@@ -181,7 +188,7 @@ linux-node1:
 
 > 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。执行完毕之后请查看结果，如果都成功，即完成。
 
-5.3 初始化Master节点
+**5.3 初始化Master节点**
 
 在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
   
@@ -199,7 +206,7 @@ linux-node1:
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-5.4 部署网络插件Flannel
+**5.4 部署网络插件Flannel**
 
 > 如果你的网卡名称不是eth0，请修改对应参数
 
@@ -207,7 +214,7 @@ linux-node1:
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
 
-5.5 节点加入集群
+**5.5 节点加入集群**
 
 1. 在Master节点上输出加入集群的命令：
 ```
