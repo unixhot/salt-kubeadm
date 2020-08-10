@@ -158,12 +158,20 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ## 5.单Master集群部署
 
 5.1 测试Salt SSH联通性
+
 ```
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
+linux-node2:
+    True
+linux-node3:
+    True
+linux-node1:
+    True
 ```
 > 保证没有问题，都返回True再继续。
 
 5.2 部署K8S集群
+
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
 #保证机器没有SWAP分区，如果存在需要关闭，如果不是全新的系统，请谨慎执行关闭交换分区操作！
@@ -171,9 +179,11 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
 
-> 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。
+> 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。执行完毕之后请查看结果，如果都成功，即完成。
 
 5.3 初始化Master节点
+
+在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
   
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
 ```
