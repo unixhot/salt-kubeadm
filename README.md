@@ -93,7 +93,7 @@ SELINUX=disabled #修改为disabled
 ```
 [root@linux-node1 ~]# git clone https://github.com/unixhot/salt-kubeadm.git
 [root@linux-node1 ~]# cd salt-kubeadm/
-[root@linux-node1 ~]# mv * /srv/
+[root@linux-node1 ~]# cp -r * /srv/
 [root@linux-node1 srv]# /bin/cp /srv/roster /etc/salt/roster
 [root@linux-node1 srv]# /bin/cp /srv/master /etc/salt/master
 ```
