@@ -1,2 +1,2 @@
-KUBELET_EXTRA_ARGS="--fail-swap-on=false"
+KUBELET_EXTRA_ARGS="--fail-swap-on=false --runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice"
 
