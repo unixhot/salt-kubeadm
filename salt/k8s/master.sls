@@ -13,3 +13,5 @@ include:
   - k8s.modules.kubelet
   - k8s.modules.kubeadm
   - k8s.modules.flannel
+#  - k8s.modules.haproxy
+#  - k8s.modules.keepalived

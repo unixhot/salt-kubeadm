@@ -1,0 +1,41 @@
+global
+    maxconn 100000
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+    nbproc 1 
+    pidfile /usr/local/haproxy/logs/haproxy.pid 
+    log 127.0.0.1 local3 info
+
+#默认参数设置
+defaults
+    option http-keep-alive
+    maxconn 100000
+    mode http
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server 50000ms
+
+#开启Haproxy Status状态监控，增加验证
+listen stats
+    mode http
+    bind 0.0.0.0:8444
+    stats enable
+    stats uri     /haproxy-status 
+    stats auth    haproxy:kubernetes
+
+#前端设置
+frontend frontend-kube-apiserver
+    bind 192.168.56.10:8443
+    mode tcp
+    option tcplog
+    default_backend backend-kube-apiserver
+
+#后端设置
+backend backend-kube-apiserver
+    balance source
+    mode tcp
+    server linux-node1  192.168.56.11:6443 check inter 2000 rise 30 fall 15
+    server linux-node2  192.168.56.12:6443 check inter 2000 rise 30 fall 15
+    server linux-node3  192.168.56.13:6443 check inter 2000 rise 30 fall 15
