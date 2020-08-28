@@ -28,7 +28,7 @@
 请参考开源书籍：[Docker和Kubernetes实践指南](http://k8s.unixhot.com) 第五章节内容。
 
 
-## 1.系统初始化(必备)
+## 1.系统初始化(必备，所有节点都需操作)
 
 **1.1 设置主机名！！！**
 
@@ -68,6 +68,8 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# systemctl stop NetworkManager && systemctl disable NetworkManager
 ```
 
+> 注意：以上初始化操作需要所有节点都执行
+
 ## 2.安装Salt-SSH并克隆本项目代码。
 
 **2.1 设置部署节点到其它所有节点的SSH免密码登录（包括本机）**
@@ -97,7 +99,6 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 srv]# /bin/cp /srv/roster /etc/salt/roster
 [root@linux-node1 srv]# /bin/cp /srv/master /etc/salt/master
 ```
-
 
 ## 3.Salt SSH管理的机器以及角色分配
 
@@ -201,10 +202,9 @@ Total run time:  733.939 s
 
 在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
-你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS
+> 你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS,存放在/etc/sysconfig/kubeadm.yml
 
 ```
-[root@linux-node1 ~]# vim /etc/sysconfig/kubeadm.yml
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=NumCPU 
 ```
 > 需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
@@ -271,7 +271,7 @@ NAME            STATUS    ROLES     AGE       VERSION
 
 ## 7.测试Kubernetes集群和Flannel网络
 
-1. 创建Deployment测试
+1. 创建Pod进行测试
 ```
 [root@linux-node1 ~]# kubectl run net-test --image=alpine sleep 360000
 deployment "net-test" created
@@ -285,7 +285,7 @@ NAME       READY   STATUS    RESTARTS   AGE   IP         NODE                   
 net-test   1/1     Running   0          22s   10.2.12.2  linux-node2.example.com   <none>           <none>
 ```
 
-3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕，有问题请QQ群交流。
+3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕。
 ```
 [root@linux-node1 ~]# ping -c 1 10.2.12.2
 PING 10.2.12.2 (10.2.12.2) 56(84) bytes of data.
@@ -332,7 +332,7 @@ version.BuildInfo{Version:"v3.2.4", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf
 
 ```
 
-## 9.如何新增Kubernetes节点
+## 如何新增Kubernetes节点
 
 1.设置SSH无密码登录
 ```
