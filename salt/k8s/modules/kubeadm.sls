@@ -34,3 +34,18 @@ kubeadm-install:
         POD_CIDR: {{ pillar['POD_CIDR'] }}  
         MASTER_IP: {{ pillar['MASTER_IP'] }}
         K8S_VERSION: {{ pillar['K8S_VERSION'] }}
+
+kubeadm-config:
+  file.managed:
+    - name: /etc/sysconfig/kubeadm-ha.yml
+    - source: salt://k8s/templates/kubeadm/kubeadm-ha.yml.template
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
+    - defaults:
+        SERVICE_CIDR: {{ pillar['SERVICE_CIDR'] }}
+        POD_CIDR: {{ pillar['POD_CIDR'] }}
+        MASTER_IP: {{ pillar['MASTER_IP'] }}
+        MASTER_VIP: {{ pillar['MASTER_VIP'] }}
+        K8S_VERSION: {{ pillar['K8S_VERSION'] }}

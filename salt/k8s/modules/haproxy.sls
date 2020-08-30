@@ -26,7 +26,7 @@ haproxy-config:
     - defaults:
         MASTER_VIP: {{ pillar['MASTER_VIP'] }}
     - require:
-      pkg: haproxy-install
+      - pkg: haproxy-install
 
 haproxy-service:
   service.running:
