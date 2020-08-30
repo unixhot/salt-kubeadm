@@ -1,4 +1,4 @@
-# SaltStack自动化部署Kubernetes(kubeadm版)
+# SaltStack自动化部署Kubernetes(kubeadm HA版)
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
@@ -102,7 +102,7 @@ SELINUX=disabled #修改为disabled
 
 ## 3.Salt SSH管理的机器以及角色分配
 
-- k8s-role: 用来设置K8S的角色
+- Kubernetes单Master部署 
 
 ```
 [root@linux-node1 ~]# vim /etc/salt/roster 
@@ -131,11 +131,46 @@ linux-node3:
       k8s-role: node
 ```
 
+> k8s-role: 用来设置K8S的角色
+
+- Kubernetes多Master部署 
+
+```
+[root@linux-node1 ~]# vim /etc/salt/roster 
+linux-node1:
+  host: 192.168.56.11
+  user: root
+  priv: /root/.ssh/id_rsa
+  minion_opts:
+    grains:
+      k8s-role: master
+
+linux-node2:
+  host: 192.168.56.12
+  user: root
+  priv: /root/.ssh/id_rsa
+  minion_opts:
+    grains:
+      k8s-role: master
+
+linux-node3:
+  host: 192.168.56.13
+  user: root
+  priv: /root/.ssh/id_rsa
+  minion_opts:
+    grains:
+      k8s-role: node
+```
+
+
 ## 4.修改对应的配置参数，本项目使用Salt Pillar保存配置
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
 K8S_VERSION: "1.18.3"
+
+#设置高可用集群VIP地址（部署高可用必须修改）
+MASTER_VIP: "192.168.56.10"
 
 #设置Master的IP地址(必须修改)
 MASTER_IP: "192.168.56.11"
@@ -198,7 +233,7 @@ Total states run:     19
 Total run time:  733.939 s
 ```
 
-**5.3 初始化Master节点**
+**5.3 单Master初始化**
 
 在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
@@ -208,6 +243,12 @@ Total run time:  733.939 s
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=NumCPU 
 ```
 > 需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
+
+**5.4 多Master初始化**
+
+```
+[root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm-ha.yml --upload-certs --ignore-preflight-errors=NumCPU
+```
 
 ** 5.4 为kubectl准备配置文件**
 
