@@ -200,7 +200,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 
 ## 5.单Master集群部署
 
-**5.1 测试Salt SSH联通性**
+### 5.1 测试Salt SSH联通性
 
 ```
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
@@ -213,7 +213,7 @@ linux-node1:
 ```
 > 保证没有问题，都返回True再继续。
 
-**5.2 部署K8S集群**
+### 5.2 部署K8S集群基础组件
 
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
@@ -233,7 +233,7 @@ Total states run:     19
 Total run time:  733.939 s
 ```
 
-**5.3 单Master初始化**
+### 5.3 单Master初始化
 
 在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
 如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
@@ -244,13 +244,14 @@ Total run time:  733.939 s
 ```
 > 需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
 
-**5.4 多Master初始化**
+### 5.4 多Master初始化
+
 
 ```
 [root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm-ha.yml --upload-certs --ignore-preflight-errors=NumCPU
 ```
 
-** 5.4 为kubectl准备配置文件**
+### 5.5 为kubectl准备配置文件
 
 kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使用管理员的配置
 
@@ -259,8 +260,12 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 [root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+### 5.6 多集群控制节点添加
 
-**5.5 部署网络插件Flannel**
+> 如果是多Master节点，需要将其它节点加入到集群中。
+
+
+### 5.6 部署网络插件Flannel
 
 > 需要保证所有Node的网卡名称一直，如果你的网卡名称不是eth0，请修改对应参数。 - --iface=eth0，修改为对应的网卡名称。
 
@@ -268,7 +273,7 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 [root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
 
-**5.6 节点加入集群**
+### 5.7 节点加入集群
 
 1. 在Master节点上输出加入集群的命令：
 ```
