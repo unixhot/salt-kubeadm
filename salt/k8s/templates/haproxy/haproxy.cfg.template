@@ -27,7 +27,7 @@ listen stats
 
 #前端设置
 frontend frontend-kube-apiserver
-    bind 192.168.56.10:8443
+    bind {{ MASTER_VIP }}:8443
     mode tcp
     option tcplog
     default_backend backend-kube-apiserver

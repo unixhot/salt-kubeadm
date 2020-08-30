@@ -24,7 +24,7 @@ haproxy-config:
     - mode: 644
     - template: jinja
     - defaults:
-        MASTER_IP: {{ pillar['MASTER_IP'] }}
+        MASTER_VIP: {{ pillar['MASTER_VIP'] }}
     - require:
       pkg: haproxy-install
 

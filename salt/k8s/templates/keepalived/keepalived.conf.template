@@ -28,7 +28,7 @@ vrrp_instance k8s_ha {
         auth_pass 1111
     }
     virtual_ipaddress {
-       192.168.56.10
+       {{ MASTER_VIP }}
     }
     track_script {
         haproxy_health_check
