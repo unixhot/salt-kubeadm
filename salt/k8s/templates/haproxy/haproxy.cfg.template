@@ -38,4 +38,3 @@ backend backend-kube-apiserver
     mode tcp
     server linux-node1  192.168.56.11:6443 check inter 2000 rise 30 fall 15
     server linux-node2  192.168.56.12:6443 check inter 2000 rise 30 fall 15
-    server linux-node3  192.168.56.13:6443 check inter 2000 rise 30 fall 15
