@@ -23,7 +23,7 @@ apiServer:
 apiVersion: kubeadm.k8s.io/v1beta2
 certificatesDir: /etc/kubernetes/pki
 clusterName: kubernetes
-controlPlaneEndpoint: "{{ MASTER_VIP }}:6444"  
+controlPlaneEndpoint: "{{ MASTER_VIP }}:8443"  
 controllerManager: {}
 dns:
   type: CoreDNS
