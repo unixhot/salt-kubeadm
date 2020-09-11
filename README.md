@@ -265,7 +265,15 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 
 > 如果是多Master节点，需要将其它节点加入到集群中。
 
+You can now join any number of the control-plane node running the following command on each as root:
 
+  kubeadm join 192.168.56.10:8443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:e1faf2d489ff739544b3b46a5ced36a1e51b550b6d3ef9f8b29681bd1ae3bbb1 \
+    --control-plane --certificate-key c725f2793006a655dc381e9ee4cb8bc9ab09d148ea8d54475e815c99f5ac2051
+
+Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
+"kubeadm init phase upload-certs --upload-certs" to reload certs afterward.
 
 
 ### 5.6 部署网络插件Flannel
