@@ -102,7 +102,7 @@ SELINUX=disabled #修改为disabled
 
 ## 3.Salt SSH管理的机器以及角色分配
 
-- Kubernetes单Master部署 
+### Kubernetes单Master部署 
 
 ```
 [root@linux-node1 ~]# vim /etc/salt/roster 
@@ -133,7 +133,7 @@ linux-node3:
 
 > k8s-role: 用来设置K8S的角色
 
-- Kubernetes多Master部署 
+### Kubernetes多Master部署
 
 ```
 [root@linux-node1 ~]# vim /etc/salt/roster 
@@ -264,6 +264,8 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 ### 5.5 多集群控制节点添加
 
 > 如果是多Master节点，需要将其它节点加入到集群中。
+
+
 
 
 ### 5.6 部署网络插件Flannel
