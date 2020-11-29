@@ -203,6 +203,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ### 5.1 测试Salt SSH联通性
 
 ```
+[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3'
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
 linux-node2:
     True
