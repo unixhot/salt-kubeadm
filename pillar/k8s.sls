@@ -5,8 +5,10 @@
 # Organization: http://www.devopsedu.com/
 # Description:  Kubernetes Config with Pillar
 #********************************************
+#设置需要安装的版本
 K8S_VERSION: "1.18.8"
 
+#设置软件包的版本，和安装版本有区别
 K8S_PKG_VERSION: "1.18.8-0"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
