@@ -299,27 +299,19 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 2. 在Node节点上执行上面输出的命令，进行部署并加入集群。
 
 > 如果执行的过程中，一直卡着无进度，请检查三台主机的时间是否同步，时间不同步会造成集群不正常，例如证书过期等。
+
+**在linux-node2.example.com上执行**
+
 ```
-#在linux-node2.example.com上执行
-
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
+```
 
-#在linux-node3.example.com上执行
-
+**在linux-node3.example.com上执行**
+```
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
 ## 6.测试Kubernetes安装
-
-### 查看组件状态
-
-```
-[root@linux-node1 ~]# kubectl get cs
-NAME                 STATUS    MESSAGE             ERROR
-controller-manager   Healthy   ok                  
-scheduler            Healthy   ok                  
-etcd-0               Healthy   {"health":"true"}   
-```
 
 ### 查看节点状态
 ```
