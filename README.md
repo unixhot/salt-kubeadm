@@ -102,6 +102,8 @@ SELINUX=disabled #修改为disabled
 
 ## 3.Salt SSH管理的机器以及角色分配
 
+> 注意：下方单Master部署和多Master部署，选择其中之一执行。
+
 ### Kubernetes单Master部署 
 
 ```
@@ -238,6 +240,8 @@ Total run time:  733.939 s
 ```
 
 ### 5.3 Master初始化
+
+> 注意：下方单Master部署和多Master部署，选择其中之一执行。
 
 1. 单Master初始化
 
