@@ -5,7 +5,9 @@
 # Organization: http://www.devopsedu.com/
 # Description:  Kubernetes Config with Pillar
 #********************************************
-K8S_VERSION: "1.18.3"
+K8S_VERSION: "1.18.8"
+
+K8S_PKG_VERSION: "1.18.8-0"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
 MASTER_VIP: "192.168.56.10"
