@@ -239,7 +239,7 @@ Total run time:  733.939 s
 1. 单Master初始化
 
 在上面的操作中，是自动化安装了Kubeadm、kubelet、docker进行了系统初始化，并生成了后续需要的yaml文件，下面的操作手工操作用于了解kubeadm的基本知识。
-如果是在实验环境，只有1个CPU，并且虚拟机存在交换分区，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
+如果是在实验环境，只有1个CPU，在执行初始化的时候需要增加--ignore-preflight-errors=NumCPU。
 > 你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS,存放在/etc/sysconfig/kubeadm.yml
 
 ```
