@@ -17,7 +17,7 @@
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.18.3，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.18.8，保证稳定性。
 
 ### 技术交流群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
@@ -168,6 +168,9 @@ linux-node3:
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
 K8S_VERSION: "1.18.8"
+
+#设置软件包的版本，和安装版本有区别
+K8S_PKG_VERSION: "1.18.8-0"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
 MASTER_VIP: "192.168.56.10"
