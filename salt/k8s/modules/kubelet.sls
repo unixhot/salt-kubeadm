@@ -13,7 +13,7 @@ include:
 kubelet-install:
   pkg.installed:
     - name: kubelet
-    - version: {{ pillar['K8S_VERSION'] }}
+    - version: {{ pillar['K8S_PKG_VERSION'] }}
     - require:
       - file: k8s-repo
   file.managed:
