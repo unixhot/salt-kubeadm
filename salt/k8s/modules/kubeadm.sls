@@ -12,14 +12,14 @@ include:
 kubectl-install:
   pkg.installed:
     - name: kubectl
-    - version: {{ pillar['K8S_VERSION'] }}
+    - version: {{ pillar['K8S_PKG_VERSION'] }}
     - require:
       - file: k8s-repo
 
 kubeadm-install:
   pkg.installed:
     - name: kubeadm
-    - version: {{ pillar['K8S_VERSION'] }}
+    - version: {{ pillar['K8S_PKG_VERSION'] }}
     - require:
       - file: k8s-repo
   file.managed:
