@@ -203,7 +203,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 
 ```
 
-## 5.单Master集群部署
+## 5.集群部署
 
 ### 5.1 测试Salt SSH联通性
 
@@ -271,7 +271,7 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 ```
 ### 5.5 多集群控制节点添加
 
-> 如果是多Master节点，需要将其它节点加入到集群中。
+> 如果是多Master节点，需要将其它节点加入到集群中。非多Master请忽略本步骤。
 
 You can now join any number of the control-plane node running the following command on each as root:
 
