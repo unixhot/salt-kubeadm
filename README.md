@@ -2,12 +2,12 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.18.3
+## 版本明细：Release-v1.18.8
 
 - 支持高可用HA
-- 测试通过系统：CentOS 7.7
-- salt-ssh:     3000.3
-- kubernetes：  v1.18.3
+- 测试通过系统：CentOS 7.9
+- salt-ssh:     3002.2
+- kubernetes：  v1.18.8
 - docker-ce:    19.03.8
 
 > 注意：从Kubernetes 1.16版本开始很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.18 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.18.md)
@@ -167,7 +167,7 @@ linux-node3:
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
-K8S_VERSION: "1.18.3"
+K8S_VERSION: "1.18.8"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
 MASTER_VIP: "192.168.56.10"
