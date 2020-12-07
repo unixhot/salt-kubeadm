@@ -5,39 +5,39 @@
 # Organization: http://www.devopsedu.com/
 # Description:  Kubernetes Config with Pillar
 #********************************************
-#设置需要安装的版本
+#Kubernetes version
 K8S_VERSION: "1.18.8"
 
-#设置软件包的版本，和安装版本有区别
+#Kubernetes package version
 K8S_PKG_VERSION: "1.18.8-0"
 
-#设置高可用集群VIP地址（部署高可用必须修改）
+#for kubernetes cluster
 MASTER_VIP: "192.168.56.10"
 
-#设置Master的VIP地址(必须修改)
+#Kubernetes Master IP
 MASTER_IP: "192.168.56.11"
 
-#通过Grains FQDN自动获取本机IP地址，请注意保证主机名解析到本机IP地址
+#Kubernetes Node IP
 NODE_IP: {{ grains['fqdn_ip4'][0] }}
 
 
-#配置Service IP地址段
+#Service CIDR
 SERVICE_CIDR: "10.1.0.0/16"
 
-#Kubernetes服务 IP (从 SERVICE_CIDR 中预分配)
+#Kubernetes API Service Cluster IP
 CLUSTER_KUBERNETES_SVC_IP: "10.1.0.1"
 
-#Kubernetes DNS 服务 IP (从 SERVICE_CIDR 中预分配)
+#Kubernetes DNS Service Cluster IP
 CLUSTER_DNS_SVC_IP: "10.1.0.2"
 
-#设置Node Port的端口范围
+#Node Port Range
 NODE_PORT_RANGE: "20000-40000"
 
-#设置POD的IP地址段
+#Kubernetes Pod CIDR
 POD_CIDR: "10.2.0.0/16"
 
-#设置集群的DNS域名
+#Kubernetes DNS Domain
 CLUSTER_DNS_DOMAIN: "cluster.local."
 
-#设置Docker Registry地址
+#Docker Registry URL
 DOCKER_REGISTRY: "http://192.168.56.11:5000"
