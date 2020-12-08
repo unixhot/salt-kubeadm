@@ -75,7 +75,7 @@ SELINUX=disabled #修改为disabled
 **2.1 设置部署节点到其它所有节点的SSH免密码登录（包括本机）**
 
 ```bash
-[root@linux-node1 ~]# ssh-keygen -t rsa
+[root@linux-node1 ~]# ssh-keygen -q -N ''
 [root@linux-node1 ~]# ssh-copy-id linux-node1
 [root@linux-node1 ~]# ssh-copy-id linux-node2
 [root@linux-node1 ~]# ssh-copy-id linux-node3
