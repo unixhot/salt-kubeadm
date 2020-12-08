@@ -68,7 +68,14 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# systemctl stop NetworkManager && systemctl disable NetworkManager
 ```
 
-> 注意：以上初始化操作需要所有节点都执行
+**1.5 更新到最新版本并重启**
+
+```
+[root@linux-node1 ~]# yum update -y && reboot
+```
+
+> 注意：以上初始化操作需要所有节点都执行，缺少步骤会导致无法安装。
+
 
 ## 2.安装Salt-SSH并克隆本项目代码。
 
