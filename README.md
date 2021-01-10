@@ -72,7 +72,7 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# yum update -y && reboot
 ```
 
-> 注意：以上初始化操作需要所有节点都执行，缺少步骤会导致无法安装。
+> 注意：以上初始化操作需要所有节点都执行，缺少步骤会导致无法安装。Kubernetes要求集群的时间同步，并且主机名不能相同，而且保证可以解析。
 
 
 ## 2.安装Salt-SSH并克隆本项目代码。
@@ -195,7 +195,7 @@ linux-node1:
 
 ### 5.2 部署K8S集群基础组件
 
-执行高级状态，会根据定义的角色再对应的机器部署对应的服务
+执行高级状态，会根据定义的角色再对应的机器部署对应的服务，例如安装kubeadm、kubelet、docker，加载IPVS内核模板，调整内核参数，生成kubeadm的配置文件等。
 ```
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
