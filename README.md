@@ -22,7 +22,6 @@
 ### 技术交流群（加群请备注来源于Github）：
 - 云计算与容器架构师：252370310
 
-
 # 部署手册
 
 请参考开源书籍：[Docker和Kubernetes实践指南](http://k8s.unixhot.com) 第五章节内容。
@@ -52,7 +51,6 @@ linux-node3.example.com
 192.168.56.11 linux-node1 linux-node1.example.com
 192.168.56.12 linux-node2 linux-node2.example.com
 192.168.56.13 linux-node3 linux-node3.example.com
-
 ```
 **1.3 关闭SELinux**
 
@@ -81,7 +79,7 @@ SELINUX=disabled #修改为disabled
 
 **2.1 设置部署节点到其它所有节点的SSH免密码登录（包括本机）**
 
-```bash
+```
 [root@linux-node1 ~]# ssh-keygen -t rsa -q -N ''
 [root@linux-node1 ~]# ssh-copy-id linux-node1
 [root@linux-node1 ~]# ssh-copy-id linux-node2
@@ -177,7 +175,6 @@ POD_CIDR: "10.2.0.0/16"
 
 #设置集群的DNS域名
 CLUSTER_DNS_DOMAIN: "cluster.local."
-
 ```
 
 ## 5.集群部署
@@ -278,9 +275,9 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.18.3
-192.168.56.12   Ready     <none>    1m        v1.18.3
-192.168.56.13   Ready     <none>    1m        v1.18.3
+192.168.56.11   Ready     master    1m        v1.19.6
+192.168.56.12   Ready     <none>    1m        v1.19.6
+192.168.56.13   Ready     <none>    1m        v1.19.6
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
@@ -344,6 +341,8 @@ linux-node3.example.com   Ready    <none>   108m   v1.19.6
 [root@linux-node1 ~]# helm version
 version.BuildInfo{Version:"v3.2.4", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
 ```
+
+> ------------------------------------------------------------------------------
 
 ## 如何新增Kubernetes Node节点
 
