@@ -317,9 +317,9 @@ rtt min/avg/max/mdev = 8.729/8.729/8.729/0.000 ms
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME                      STATUS   ROLES    AGE    VERSION
-linux-node1.example.com   Ready    master   120m   v1.18.3
-linux-node2.example.com   Ready    <none>   113m   v1.18.3
-linux-node3.example.com   Ready    <none>   108m   v1.18.3
+linux-node1.example.com   Ready    master   120m   v1.19.6
+linux-node2.example.com   Ready    <none>   113m   v1.19.6
+linux-node3.example.com   Ready    <none>   108m   v1.19.6
 
 [root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
 
@@ -343,10 +343,9 @@ linux-node3.example.com   Ready    <none>   108m   v1.18.3
 ```
 [root@linux-node1 ~]# helm version
 version.BuildInfo{Version:"v3.2.4", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
-
 ```
 
-## 如何新增Kubernetes节点
+## 如何新增Kubernetes Node节点
 
 1.设置SSH无密码登录
 ```
