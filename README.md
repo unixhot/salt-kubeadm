@@ -142,36 +142,6 @@ linux-node3:
 
 > k8s-role: 用来设置K8S的角色
 
-### Kubernetes多Master部署
-
-```
-[root@linux-node1 ~]# vim /etc/salt/roster 
-linux-node1:
-  host: 192.168.56.11
-  user: root
-  priv: /root/.ssh/id_rsa
-  minion_opts:
-    grains:
-      k8s-role: master
-
-linux-node2:
-  host: 192.168.56.12
-  user: root
-  priv: /root/.ssh/id_rsa
-  minion_opts:
-    grains:
-      k8s-role: master
-
-linux-node3:
-  host: 192.168.56.13
-  user: root
-  priv: /root/.ssh/id_rsa
-  minion_opts:
-    grains:
-      k8s-role: node
-```
-
-
 ## 4.修改对应的配置参数，本项目使用Salt Pillar保存配置
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
@@ -261,12 +231,6 @@ Total run time:  733.939 s
 ```
 > 需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
 
-2. 多Master初始化
-
-```
-[root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm-ha.yml --upload-certs --ignore-preflight-errors=NumCPU
-```
-
 ### 5.4 为kubectl准备配置文件
 
 kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使用管理员的配置
@@ -276,20 +240,6 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 [root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 [root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-### 5.5 多集群控制节点添加
-
-> 如果是多Master节点，需要将其它节点加入到集群中。非多Master请忽略本步骤。
-
-You can now join any number of the control-plane node running the following command on each as root:
-
-  kubeadm join 192.168.56.10:8443 --token abcdef.0123456789abcdef \
-    --discovery-token-ca-cert-hash sha256:e1faf2d489ff739544b3b46a5ced36a1e51b550b6d3ef9f8b29681bd1ae3bbb1 \
-    --control-plane --certificate-key c725f2793006a655dc381e9ee4cb8bc9ab09d148ea8d54475e815c99f5ac2051
-
-Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
-As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
-"kubeadm init phase upload-certs --upload-certs" to reload certs afterward.
-
 
 ### 5.6 部署网络插件Flannel
 
