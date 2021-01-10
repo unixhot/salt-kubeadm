@@ -182,6 +182,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ### 5.1 测试Salt SSH联通性
 
 ```
+[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3 && swapoff -a && ntpdate time1.aliyun.com'
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
 linux-node2:
     True
@@ -189,7 +190,6 @@ linux-node3:
     True
 linux-node1:
     True
-[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3 && swapoff -a && ntpdate time1.aliyun.com'
 ```
 > 此步骤是测试salt-ssh可以联通待部署的节点，保证没有问题，都返回True方可继续，如果有异常请先解决异常。保证机器没有SWAP分区，如果存在需要关闭，如果不是全新的系统，请谨慎执行关闭交换分区操作！
 
