@@ -92,7 +92,7 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 [root@linux-node1 ~]# yum install -y https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
 [root@linux-node1 ~]# sed -i "s/repo.saltstack.com/mirrors.aliyun.com\/saltstack/g" /etc/yum.repos.d/salt-py3-latest.repo
-[root@linux-node1 ~]# yum install -y salt-ssh git unzip
+[root@linux-node1 ~]# yum install -y salt-ssh git unzip ntpdate
 ```
 
 **2.3 获取本项目代码，并放置在/srv目录**
@@ -198,7 +198,7 @@ linux-node1:
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务
 ```
 #保证机器没有SWAP分区，如果存在需要关闭，如果不是全新的系统，请谨慎执行关闭交换分区操作！
-[root@linux-node1 ~]# salt-ssh '*' -r 'swapoff -a'
+[root@linux-node1 ~]# salt-ssh '*' -r 'swapoff -a && ntpdate time1.aliyun.com'
 [root@linux-node1 ~]# salt-ssh '*' state.highstate
 ```
 
