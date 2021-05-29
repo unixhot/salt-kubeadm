@@ -1,0 +1,9 @@
+apiVersion: redis.paas.opsany.com/v1
+kind: Redis
+metadata:
+  name: redis-test
+spec:
+  clusterType: single
+  authPassword: redis
+  memory: 4096
+  image: redis
