@@ -1,13 +1,14 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: jenkins-master
+  namespace: jenkins
 spec:
   rules:
-  - host: www.example.com
+  - host: jenkins.example.com
     http:
       paths:
       - path: /
         backend:
-          serviceName: nginx-service
+          serviceName: jenkins-master
           servicePort: 80
