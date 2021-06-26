@@ -19,9 +19,6 @@
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
 4. 使用Kubernetes当前稳定版本v1.19.6，保证稳定性。
 
-### 技术交流群（加群请备注来源于Github）：
-- 云计算与容器架构师：252370310
-
 # 部署手册
 
 请参考开源书籍：[Docker和Kubernetes实践指南](http://k8s.unixhot.com) 第五章节内容。
@@ -63,7 +60,6 @@ SELINUX=disabled #修改为disabled
 
 ```
 [root@linux-node1 ~]# systemctl stop firewalld && systemctl disable firewalld
-[root@linux-node1 ~]# systemctl stop NetworkManager && systemctl disable NetworkManager
 ```
 
 **1.5 更新到最新版本并重启**
@@ -88,10 +84,17 @@ SELINUX=disabled #修改为disabled
 
 **2.2 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）**
 
+# For CentOS 7
 ```
 [root@linux-node1 ~]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 [root@linux-node1 ~]# yum install -y https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-[root@linux-node1 ~]# sed -i "s/repo.saltstack.com/mirrors.aliyun.com\/saltstack/g" /etc/yum.repos.d/salt-py3-latest.repo
+[root@linux-node1 ~]# yum install -y salt-ssh git unzip ntpdate
+```
+
+# For CentOS 8
+```
+[root@linux-node1 ~]# rpm --import https://repo.saltproject.io/py3/redhat/8/x86_64/latest/SALTSTACK-GPG-KEY.pub
+[root@linux-node1 ~]# curl -fsSL https://repo.saltproject.io/py3/redhat/8/x86_64/latest.repo | sudo tee /etc/yum.repos.d/salt.repo
 [root@linux-node1 ~]# yum install -y salt-ssh git unzip ntpdate
 ```
 
