@@ -62,7 +62,13 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# systemctl stop firewalld && systemctl disable firewalld
 ```
 
-**1.5 更新到最新版本并重启**
+**1,5 彻底关闭交换分区**
+```
+[root@linux-node1 ~]# vim /etc/fstab
+#删除掉交换分区配置
+```
+
+**1.6 更新到最新版本并重启**
 
 ```
 [root@linux-node1 ~]# yum update -y && reboot
