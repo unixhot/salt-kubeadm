@@ -6,10 +6,10 @@
 # Description:  Kubernetes Config with Pillar
 #********************************************
 #Kubernetes version
-K8S_VERSION: "1.19.6"
+K8S_VERSION: "1.21.7"
 
 #Kubernetes package version
-K8S_PKG_VERSION: "1.19.6-0"
+K8S_PKG_VERSION: "1.21.7-0"
 
 #for kubernetes cluster
 MASTER_VIP: "192.168.56.10"
