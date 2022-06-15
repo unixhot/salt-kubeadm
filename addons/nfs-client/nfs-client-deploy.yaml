@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nfs-client-provisioner
+  namespace: kube-system
   labels:
     app: nfs-client-provisioner
-  # replace with namespace where provisioner is deployed
-  namespace: default
+
 spec:
   replicas: 1
   strategy:
