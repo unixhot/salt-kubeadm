@@ -282,9 +282,9 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.19.6
-192.168.56.12   Ready     <none>    1m        v1.19.6
-192.168.56.13   Ready     <none>    1m        v1.19.6
+192.168.56.11   Ready     master    1m        v1.24.3
+192.168.56.12   Ready     <none>    1m        v1.24.3
+192.168.56.13   Ready     <none>    1m        v1.24.3
 ```
 
 ## 7.测试Kubernetes集群和Flannel网络
@@ -338,15 +338,15 @@ linux-node3.example.com   Ready    <none>   108m   v1.24.3
 1.部署Helm
 ```
 [root@linux-node1 ~]# cd /usr/local/src
-[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
-[root@linux-node1 src]# tar zxf helm-v3.2.4-linux-amd64.tar.gz
+[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.9.2-linux-amd64.tar.gz
+[root@linux-node1 src]# tar zxf helm-v3.9.2-linux-amd64.tar.gz
 [root@linux-node1 src]# mv linux-amd64/helm /usr/local/bin/
 ```
 
 2.验证安装是否成功
 ```
 [root@linux-node1 ~]# helm version
-version.BuildInfo{Version:"v3.2.4", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
+version.BuildInfo{Version:"v3.9.2", GitCommit:"1addefbfe665c350f4daf868a9adc5600cc064fd", GitTreeState:"clean", GoVersion:"go1.17.12"}
 ```
 
 > ------------------------------------------------------------------------------
