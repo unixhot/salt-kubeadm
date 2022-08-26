@@ -6,6 +6,7 @@ spec:
   selector:
     app: nginx
   ports:
-  - protocol: TCP
+  - name: web
+    protocol: TCP
     port: 80
     targetPort: 80
