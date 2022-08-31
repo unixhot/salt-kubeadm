@@ -1,4 +1,4 @@
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 bootstrapTokens:
 - groups:
   - system:bootstrappers:kubeadm:default-node-token
@@ -12,7 +12,7 @@ localAPIEndpoint:
   advertiseAddress: {{ MASTER_IP }}
   bindPort: 6443
 nodeRegistration:
-  criSocket: /var/run/dockershim.sock
+  criSocket: unix:///run/containerd/containerd.sock
   name: linux-node1.example.com
   taints:
   - effect: NoSchedule
@@ -20,12 +20,11 @@ nodeRegistration:
 ---
 apiServer:
   timeoutForControlPlane: 4m0s
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 certificatesDir: /etc/kubernetes/pki
 clusterName: kubernetes
 controllerManager: {}
-dns:
-  type: CoreDNS
+dns: {}
 etcd:
   local:
     dataDir: /var/lib/etcd

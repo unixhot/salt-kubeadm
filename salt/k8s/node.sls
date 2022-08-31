@@ -8,6 +8,7 @@
 
 include:
   - k8s.modules.docker
+  - k8s.modules.containerd
   - k8s.modules.repo
   - k8s.modules.init
   - k8s.modules.kubelet
