@@ -99,6 +99,7 @@ yum install -y salt-ssh git unzip ntpdate
 
 ```
 git clone https://github.com/unixhot/salt-kubeadm.git
+# wget 
 cd salt-kubeadm/
 cp -r * /srv/
 /bin/cp /srv/roster /etc/salt/roster
