@@ -259,17 +259,17 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 **在linux-node2.example.com上执行**
 
 ```
-[root@linux-node2 ~]# containerd config default > /etc/containerd/config.toml
-[root@linux-node2 ~]# sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers#g' /etc/containerd/config.toml
-[root@linux-node2 ~]# systemctl restart containerd
+containerd config default > /etc/containerd/config.toml
+sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers/pause#g' /etc/containerd/config.toml
+systemctl restart containerd
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
 **在linux-node3.example.com上执行**
 ```
-[root@linux-node2 ~]# containerd config default > /etc/containerd/config.toml
-[root@linux-node2 ~]# sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers#g' /etc/containerd/config.toml
-[root@linux-node2 ~]# systemctl restart containerd
+containerd config default > /etc/containerd/config.toml
+sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers/pause#g' /etc/containerd/config.toml
+systemctl restart containerd
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
@@ -302,7 +302,7 @@ net-test   1/1     Running   0          22s   10.2.12.2  linux-node2.example.com
 
 3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕。
 ```
-[root@linux-node1 ~]# ping -c 1 10.2.12.2
+[root@linux-node1 ~]# ping 10.2.12.2
 PING 10.2.12.2 (10.2.12.2) 56(84) bytes of data.
 64 bytes from 10.2.12.2: icmp_seq=1 ttl=61 time=8.72 ms
 
@@ -316,17 +316,9 @@ rtt min/avg/max/mdev = 8.729/8.729/8.729/0.000 ms
 ## 1. 部署Ingress-Control
 
 ```
-[root@linux-node1 ~]# kubectl get node
-NAME                      STATUS   ROLES    AGE    VERSION
-linux-node1.example.com   Ready    master   120m   v1.24.3
-linux-node2.example.com   Ready    <none>   113m   v1.24.3
-linux-node3.example.com   Ready    <none>   108m   v1.24.3
-
-[root@linux-node1 ~]# kubectl label nodes linux-node2.example.com edgenode=true
-
-[root@linux-node1 ~]# kubectl create -f /srv/addons/traefik-ingress/
+kubectl label nodes linux-node2.example.com edgenode=true
+kubectl create -f /srv/addons/nginx-ingress/nginx-ingress.yaml
 ```
-
 
 ## 2.部署Helm3
 
@@ -334,10 +326,10 @@ linux-node3.example.com   Ready    <none>   108m   v1.24.3
 
 1.部署Helm
 ```
-[root@linux-node1 ~]# cd /usr/local/src
-[root@linux-node1 src]# wget https://get.helm.sh/helm-v3.9.2-linux-amd64.tar.gz
-[root@linux-node1 src]# tar zxf helm-v3.9.2-linux-amd64.tar.gz
-[root@linux-node1 src]# mv linux-amd64/helm /usr/local/bin/
+cd /usr/local/src
+wget https://get.helm.sh/helm-v3.9.2-linux-amd64.tar.gz
+tar zxf helm-v3.9.2-linux-amd64.tar.gz
+mv linux-amd64/helm /usr/local/bin/
 ```
 
 2.验证安装是否成功
