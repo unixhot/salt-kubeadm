@@ -32,7 +32,7 @@ containerd-daemon-config:
 crictl-config:
   file.managed:
     - name: /etc/crictl.yaml
-    - source: salt://k8s/templates/containerd/crictl.template
+    - source: salt://k8s/templates/containerd/crictl.yaml.template
     - user: root
     - group: root
     - mode: 644
