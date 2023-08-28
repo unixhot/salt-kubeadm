@@ -29,6 +29,14 @@ containerd-daemon-config:
     - group: root
     - mode: 644
 
+crictl-config:
+  file.managed:
+    - name: /etc/crictl.yaml
+    - source: salt://k8s/templates/containerd/crictl.template
+    - user: root
+    - group: root
+    - mode: 644
+
 containerd-service:
   service.running:
     - name: containerd
