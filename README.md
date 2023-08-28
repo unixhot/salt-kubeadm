@@ -198,7 +198,7 @@ linux-node1:
 
 执行高级状态，会根据定义的角色再对应的机器部署对应的服务，例如安装kubeadm、kubelet、docker，加载IPVS内核模板，调整内核参数，生成kubeadm的配置文件等。
 ```
-[root@linux-node1 ~]# salt-ssh '*' state.highstate
+salt-ssh '*' state.highstate
 ```
 
 > 喝杯咖啡休息一下，根据网络环境的不同，该步骤一般时长在5分钟以内，如果执行有失败可以再次执行即可！执行该操作会部署基本的环境，包括初始化需要用到的YAML。执行完毕之后请查看结果，需要保证所有的Failed：为0，说明初始化成功。
@@ -223,7 +223,7 @@ Total run time:  733.939 s
 > 你可以对kubeadm.yml进行定制，kubeadm会读取该文件进行初始化操作，这里我修改了负载均衡的配置使用IPVS,存放在/etc/sysconfig/kubeadm.yml
 
 ```
-[root@linux-node1 ~]# kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=NumCPU 
+kubeadm init --config /etc/sysconfig/kubeadm.yml --ignore-preflight-errors=NumCPU 
 ```
 > 需要下载Kubernetes所有应用服务镜像，根据网络情况，时间可能较长，请等待。可以在新窗口，docker images查看下载镜像进度。
 
@@ -232,9 +232,9 @@ Total run time:  733.939 s
 kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使用管理员的配置
 
 ```
-[root@linux-node1 ~]# mkdir -p $HOME/.kube
-[root@linux-node1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-[root@linux-node1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ### 5.6 部署网络插件Flannel
@@ -242,7 +242,7 @@ kubectl默认会在用户的家目录寻找.kube/config配置文件，下面使�
 > 需要保证所有Node的网卡名称一直，如果你的网卡名称不是eth0，请修改对应参数。 - --iface=eth0，修改为对应的网卡名称。
 
 ```
-[root@linux-node1 ~]# kubectl create -f /etc/sysconfig/kube-flannel.yml 
+kubectl create -f /etc/sysconfig/kube-flannel.yml 
 ```
 
 ### 5.7 节点加入集群
