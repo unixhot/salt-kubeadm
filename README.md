@@ -260,14 +260,16 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 
 ```
 [root@linux-node2 ~]# containerd config default > /etc/containerd/config.toml
-[root@linux-node2 ~]# sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers#g' /etc/containerd/config.toml 
+[root@linux-node2 ~]# sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers#g' /etc/containerd/config.toml
+[root@linux-node2 ~]# systemctl restart containerd
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
 **在linux-node3.example.com上执行**
 ```
 [root@linux-node2 ~]# containerd config default > /etc/containerd/config.toml
-[root@linux-node2 ~]# sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers#g' /etc/containerd/config.toml 
+[root@linux-node2 ~]# sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers#g' /etc/containerd/config.toml
+[root@linux-node2 ~]# systemctl restart containerd
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
