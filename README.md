@@ -2,22 +2,19 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.24.3
+## 版本明细：Release-v1.24.17
 
 - 支持高可用HA
 - 测试通过系统： CentOS 7.9
 - salt-ssh:    3002.2
 - kubernetes： v1.17.16 v1.18.8 v1.19.6 v1.21.* v1.22.* v1.23.* v1.24.*
-- docker-ce:   19.03.8
-
-> 注意：从Kubernetes 1.16版本开始很多API名称发生了变化，例如常用的daemonsets, deployments, replicasets的API从extensions/v1beta1全部更改为apps/v1，所有老的YAML文件直接使用会有报错，请注意修改，详情可参考[Kubernetes 1.19 CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.19.md)
 
 ### 架构介绍
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.24.3，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.24.17，保证稳定性。
 
 # 部署手册
 
@@ -29,14 +26,9 @@
 **1.1 设置主机名！！！**
 
 ```
-[root@linux-node1 ~]# vim /etc/hostname 
-linux-node1.example.com
-
-[root@linux-node2 ~]# vim /etc/hostname 
-linux-node2.example.com
-
-[root@linux-node3 ~]# vim /etc/hostname 
-linux-node3.example.com
+[root@linux-node1 ~]# hostnamectl set-hostname linux-node1.example.com
+[root@linux-node2 ~]# hostnamectl set-hostname linux-node2.example.com
+[root@linux-node3 ~]# hostnamectl set-hostname linux-node3.example.com
 
 ```
 **1.2 设置/etc/hosts保证主机名能够解析**
@@ -62,7 +54,7 @@ SELINUX=disabled #修改为disabled
 [root@linux-node1 ~]# systemctl stop firewalld && systemctl disable firewalld
 ```
 
-**1,5 彻底关闭交换分区**
+**1.5 彻底关闭交换分区**
 ```
 [root@linux-node1 ~]# vim /etc/fstab
 #删除掉交换分区配置
@@ -75,7 +67,6 @@ SELINUX=disabled #修改为disabled
 ```
 
 > 注意：以上初始化操作需要所有节点都执行，缺少步骤会导致无法安装。Kubernetes要求集群的时间同步，并且主机名不能相同，而且保证可以解析。
-
 
 ## 2.安装Salt-SSH并克隆本项目代码。
 
@@ -92,9 +83,9 @@ SELINUX=disabled #修改为disabled
 
 # For CentOS 7
 ```
-[root@linux-node1 ~]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
-[root@linux-node1 ~]# yum install -y https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-[root@linux-node1 ~]# yum install -y salt-ssh git unzip ntpdate
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+yum install -y https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
+yum install -y salt-ssh git unzip ntpdate
 ```
 
 # For CentOS 8
@@ -107,11 +98,11 @@ SELINUX=disabled #修改为disabled
 **2.3 获取本项目代码，并放置在/srv目录**
 
 ```
-[root@linux-node1 ~]# git clone https://github.com/unixhot/salt-kubeadm.git
-[root@linux-node1 ~]# cd salt-kubeadm/
-[root@linux-node1 ~]# cp -r * /srv/
-[root@linux-node1 srv]# /bin/cp /srv/roster /etc/salt/roster
-[root@linux-node1 srv]# /bin/cp /srv/master /etc/salt/master
+git clone https://github.com/unixhot/salt-kubeadm.git
+cd salt-kubeadm/
+cp -r * /srv/
+/bin/cp /srv/roster /etc/salt/roster
+/bin/cp /srv/master /etc/salt/master
 ```
 
 ## 3.Salt SSH管理的机器以及角色分配
@@ -153,10 +144,10 @@ linux-node3:
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
-K8S_VERSION: "1.24.3"
+K8S_VERSION: "1.24.17"
 
 #设置软件包的版本，和安装版本有区别
-K8S_PKG_VERSION: "1.24.3-0"
+K8S_PKG_VERSION: "1.24.17-0"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
 MASTER_VIP: "192.168.56.10"
@@ -191,7 +182,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ### 5.1 测试Salt SSH联通性
 
 ```
-[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3 && swapoff -a && ntpdate time1.aliyun.com'
+[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3 ntpdate && swapoff -a && ntpdate time1.aliyun.com'
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
 linux-node2:
     True
