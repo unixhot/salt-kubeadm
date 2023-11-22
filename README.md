@@ -289,6 +289,7 @@ NAME            STATUS    ROLES     AGE       VERSION
 192.168.56.12   Ready     <none>    1m        v1.24.3
 192.168.56.13   Ready     <none>    1m        v1.24.3
 ```
+> 安装时，默认给linux-node1这个node设置了污点，默认不会调度非关键组件的Pod，如需取消污点，请执行kubectl taint  node linux-node1.example.com node-role.kubernetes.io/master:NoSchedule-
 
 ## 7.测试Kubernetes集群和Flannel网络
 
