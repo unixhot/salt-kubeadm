@@ -2,19 +2,19 @@
 
 - 在Kubernetes v1.13版本开始，kubeadm正式可以生产使用，但是kubeadm手动操作依然很繁琐，这里使用SaltStack进行自动化部署。
 
-## 版本明细：Release-v1.24.17
+## 版本明细：Release-v1.26.9
 
 - 支持高可用HA
 - 测试通过系统： CentOS 7.9
 - salt-ssh:    3002.2
-- kubernetes： v1.17.16 v1.18.8 v1.19.6 v1.21.* v1.22.* v1.23.* v1.24.*
+- kubernetes： v1.17.16 v1.18.8 v1.19.6 v1.21.* v1.22.* v1.23.* v1.24.* v1.26.9
 
 ### 架构介绍
 建议部署节点：最少三个节点，请配置好主机名解析（必备）
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.24.17，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.26.9，保证稳定性。
 
 # 部署手册
 
@@ -98,8 +98,13 @@ yum install -y salt-ssh git unzip ntpdate
 **2.3 获取本项目代码，并放置在/srv目录**
 
 ```
+# 国外用户
 git clone https://github.com/unixhot/salt-kubeadm.git
-# wget 
+
+# 国内用户
+git clone https://gitee.com/unixhot/salt-kubeadm.git
+
+# 放置文件
 cd salt-kubeadm/
 cp -r * /srv/
 /bin/cp /srv/roster /etc/salt/roster
@@ -145,10 +150,10 @@ linux-node3:
 ```
 [root@linux-node1 ~]# vim /srv/pillar/k8s.sls
 #设置需要安装的Kubernetes版本
-K8S_VERSION: "1.24.17"
+K8S_VERSION: "1.26.9"
 
 #设置软件包的版本，和安装版本有区别
-K8S_PKG_VERSION: "1.24.17-0"
+K8S_PKG_VERSION: "1.26.9-0"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
 MASTER_VIP: "192.168.56.10"
