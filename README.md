@@ -92,7 +92,7 @@ yum install -y salt-ssh git unzip ntpdate
 ```
 [root@linux-node1 ~]# rpm --import https://repo.saltproject.io/py3/redhat/8/x86_64/latest/SALTSTACK-GPG-KEY.pub
 [root@linux-node1 ~]# curl -fsSL https://repo.saltproject.io/py3/redhat/8/x86_64/latest.repo | sudo tee /etc/yum.repos.d/salt.repo
-[root@linux-node1 ~]# yum install -y salt-ssh git unzip ntpdate
+[root@linux-node1 ~]# yum install -y salt-ssh git unzip
 ```
 
 **2.3 获取本项目代码，并放置在/srv目录**
@@ -153,7 +153,7 @@ linux-node3:
 K8S_VERSION: "1.30.2"
 
 #设置软件包的版本，和安装版本有区别
-K8S_PKG_VERSION: "1.30.2-0"
+K8S_PKG_VERSION: "1.30.2-150500.1.1"
 
 #设置高可用集群VIP地址（部署高可用必须修改）
 MASTER_VIP: "192.168.56.10"
@@ -188,7 +188,7 @@ CLUSTER_DNS_DOMAIN: "cluster.local."
 ### 5.1 测试Salt SSH联通性
 
 ```
-[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3 ntpdate && swapoff -a && ntpdate time1.aliyun.com'
+[root@linux-node1 ~]# salt-ssh -i '*' -r 'yum install -y python3 && swapoff -a'
 [root@linux-node1 ~]# salt-ssh -i '*' test.ping
 linux-node2:
     True
