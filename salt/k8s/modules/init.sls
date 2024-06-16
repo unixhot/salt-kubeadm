@@ -33,3 +33,4 @@ kube-nfs:
     - pkgs:
       - nfs-utils
       - rpcbind
+      - iproute-tc
