@@ -33,4 +33,4 @@ containerd-service:
     - name: containerd
     - enable: True
     - watch:
-      - file: containerd-daemon-config
+      - cmd: containerd-daemon-config
