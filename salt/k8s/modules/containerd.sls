@@ -15,7 +15,6 @@ containerd-install:
     - mode: 644
   pkg.installed:
     - name: containerd.io
-    - version: 1.6.8-3.1.el7
       
 containerd-config-dir:
   file.directory:
