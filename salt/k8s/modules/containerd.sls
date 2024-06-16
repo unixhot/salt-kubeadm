@@ -7,12 +7,8 @@
 #******************************************
 
 containerd-install:
-  file.managed:
-    - name: /etc/yum.repos.d/docker-ce.repo
-    - source: salt://k8s/templates/docker/docker-ce.repo.template
-    - user: root
-    - group: root
-    - mode: 644
+  cmd.run:
+    - name: dnf config-manager --add-repo=http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
   pkg.installed:
     - name: containerd.io
       
@@ -21,12 +17,8 @@ containerd-config-dir:
     - name: /etc/containerd
     
 containerd-daemon-config:
-  file.managed:
-    - name: /etc/containerd/config.toml
-    - source: salt://k8s/templates/containerd/config.toml.template
-    - user: root
-    - group: root
-    - mode: 644
+  cmd.run:
+    - name: containerd config default > /etc/containerd/config.toml && sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers/pause#g' /etc/containerd/config.toml
 
 crictl-config:
   file.managed:
