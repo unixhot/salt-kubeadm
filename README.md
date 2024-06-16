@@ -5,7 +5,7 @@
 ## 版本明细：Release-v1.30.2
 
 - 支持高可用HA
-- 测试通过系统： CentOS 8.x
+- 测试通过系统： CentOS 8.x（不再支持CentOS7）
 - salt-ssh:    3002.2
 
 ### 架构介绍
@@ -13,7 +13,7 @@
 1. 使用Salt Grains进行角色定义，增加灵活性。
 2. 使用Salt Pillar进行配置项管理，保证安全性。
 3. 使用Salt SSH执行状态，不需要安装Agent，保证通用性。
-4. 使用Kubernetes当前稳定版本v1.26.9，保证稳定性。
+4. 使用Kubernetes当前稳定版本v1.30.2，保证稳定性。
 
 # 部署手册
 
