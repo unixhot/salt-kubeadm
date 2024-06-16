@@ -33,4 +33,3 @@ kube-nfs:
     - pkgs:
       - nfs-utils
       - rpcbind
-      - ntpdate
