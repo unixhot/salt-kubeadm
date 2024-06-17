@@ -9,7 +9,7 @@
 K8S_VERSION: "1.30.2"
 
 #Kubernetes package version
-K8S_PKG_VERSION: "1.30.2-0"
+K8S_PKG_VERSION: "1.30.2-150500.1.1"
 
 #for kubernetes cluster
 MASTER_VIP: "192.168.56.10"
