@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.13.12
+        image: registry.cn-beijing.aliyuncs.com/opsany/nginx:1.26-perl
         ports:
         - containerPort: 80
         resources:
