@@ -90,11 +90,8 @@ yum install -y salt-ssh git unzip
 **2.3 获取本项目代码，并放置在/srv目录**
 
 ```
-# 国外用户
+# 克隆项目
 git clone https://github.com/unixhot/salt-kubeadm.git
-
-# 国内用户
-git clone https://gitee.com/unixhot/salt-kubeadm.git
 
 # 放置文件
 cd salt-kubeadm/
@@ -257,17 +254,11 @@ kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-
 **在linux-node2.example.com上执行**
 
 ```
-containerd config default > /etc/containerd/config.toml
-sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers/pause#g' /etc/containerd/config.toml
-systemctl restart containerd
 [root@linux-node2 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
 **在linux-node3.example.com上执行**
 ```
-containerd config default > /etc/containerd/config.toml
-sed -i 's#k8s.gcr.io/pause#registry.aliyuncs.com/google_containers/pause#g' /etc/containerd/config.toml
-systemctl restart containerd
 [root@linux-node3 ~]# kubeadm join 192.168.56.11:6443 --token qnlyhw.cr9n8jbpbkg94szj     --discovery-token-ca-cert-hash sha256:cca103afc0ad374093f3f76b2f91963ac72eabea3d379571e88d403fc7670611
 ```
 
@@ -277,9 +268,9 @@ systemctl restart containerd
 ```
 [root@linux-node1 ~]# kubectl get node
 NAME            STATUS    ROLES     AGE       VERSION
-192.168.56.11   Ready     master    1m        v1.24.3
-192.168.56.12   Ready     <none>    1m        v1.24.3
-192.168.56.13   Ready     <none>    1m        v1.24.3
+192.168.56.11   Ready     master    1m        v1.30.2
+192.168.56.12   Ready     <none>    1m        v1.30.2
+192.168.56.13   Ready     <none>    1m        v1.30.2
 ```
 > 安装时，默认给linux-node1这个node设置了污点，默认不会调度非关键组件的Pod，如需取消污点，请执行kubectl taint  node linux-node1.example.com node-role.kubernetes.io/master:NoSchedule-
 
@@ -287,8 +278,8 @@ NAME            STATUS    ROLES     AGE       VERSION
 
 1. 创建Pod进行测试
 ```
-[root@linux-node1 ~]# kubectl run net-test --image=alpine sleep 360000
-deployment "net-test" created
+[root@linux-node1 ~]# kubectl run nginx-test --image=registry.cn-beijing.aliyuncs.com/opsany/nginx:1.26-perl
+pod/nginx-test created
 需要等待拉取镜像，可能稍有的慢，请等待。
 ```
 
@@ -296,7 +287,7 @@ deployment "net-test" created
 ```
 [root@linux-node1 ~]# kubectl get pod -o wide
 NAME       READY   STATUS    RESTARTS   AGE   IP         NODE                      NOMINATED NODE   READINESS GATES
-net-test   1/1     Running   0          22s   10.2.12.2  linux-node2.example.com   <none>           <none>
+nginx-test   1/1     Running   0          22s   10.2.12.2  linux-node2.example.com   <none>           <none>
 ```
 
 3. 测试联通性，如果都能ping通，说明Kubernetes集群部署完毕。
@@ -308,6 +299,20 @@ PING 10.2.12.2 (10.2.12.2) 56(84) bytes of data.
 --- 10.2.12.2 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 8.729/8.729/8.729/0.000 ms
+```
+
+4. 测试访问，如果访问正常。说明Kubernetes集群运行正常。
+```
+[root@linux-node1 ~]# curl --head http://10.2.1.3
+HTTP/1.1 200 OK
+Server: nginx/1.26.1
+Date: Mon, 17 Jun 2024 12:54:23 GMT
+Content-Type: text/html
+Content-Length: 615
+Last-Modified: Tue, 28 May 2024 13:28:07 GMT
+Connection: keep-alive
+ETag: "6655dbe7-267"
+Accept-Ranges: bytes
 ```
 
 # 必备插件
@@ -326,15 +331,18 @@ kubectl create -f /srv/addons/nginx-ingress/nginx-ingress.yaml
 1.部署Helm
 ```
 cd /usr/local/src
-wget https://get.helm.sh/helm-v3.9.2-linux-amd64.tar.gz
-tar zxf helm-v3.9.2-linux-amd64.tar.gz
+# 官方包
+wget https://get.helm.sh/helm-v3.15.2-linux-amd64.tar.gz
+# 国内访问
+wget https://opsany.oss-cn-beijing.aliyuncs.com/helm-v3.15.2-linux-amd64.tar.gz
+tar zxf helm-v3.15.2-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/
 ```
 
 2.验证安装是否成功
 ```
 [root@linux-node1 ~]# helm version
-version.BuildInfo{Version:"v3.9.2", GitCommit:"1addefbfe665c350f4daf868a9adc5600cc064fd", GitTreeState:"clean", GoVersion:"go1.17.12"}
+version.BuildInfo{Version:"v3.15.2", GitCommit:"1a500d5625419a524fdae4b33de351cc4f58ec35", GitTreeState:"clean", GoVersion:"go1.22.4"}
 ```
 
 > ------------------------------------------------------------------------------
