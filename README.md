@@ -322,6 +322,7 @@ Accept-Ranges: bytes
 ```
 kubectl label nodes linux-node2.example.com edgenode=true
 kubectl create -f /srv/addons/nginx-ingress/nginx-ingress.yaml
+kubectl get pod -n ingress-nginx
 ```
 
 ## 2.部署Helm3
