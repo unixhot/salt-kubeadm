@@ -80,18 +80,11 @@ SELINUX=disabled #修改为disabled
 
 **2.2 安装Salt SSH（注意：老版本的Salt SSH不支持Roster定义Grains，需要2017.7.4以上版本）**
 
-# For CentOS 7
-```
-wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
-yum install -y https://repo.saltstack.com/py3/redhat/salt-py3-repo-latest.el7.noarch.rpm
-yum install -y salt-ssh git unzip ntpdate
-```
-
 # For CentOS 8
 ```
-[root@linux-node1 ~]# rpm --import https://repo.saltproject.io/py3/redhat/8/x86_64/latest/SALTSTACK-GPG-KEY.pub
-[root@linux-node1 ~]# curl -fsSL https://repo.saltproject.io/py3/redhat/8/x86_64/latest.repo | sudo tee /etc/yum.repos.d/salt.repo
-[root@linux-node1 ~]# yum install -y salt-ssh git unzip
+rpm --import https://repo.saltproject.io/py3/redhat/8/x86_64/latest/SALTSTACK-GPG-KEY.pub
+curl -fsSL https://repo.saltproject.io/py3/redhat/8/x86_64/latest.repo | sudo tee /etc/yum.repos.d/salt.repo
+yum install -y salt-ssh git unzip
 ```
 
 **2.3 获取本项目代码，并放置在/srv目录**
