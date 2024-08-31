@@ -22,8 +22,8 @@ kubelet-install:
     - user: root
     - group: root
     - mode: 644
-  service.running:
-    - name: kubelet
-    - enable: True
-    - watch:
-      - file: kubelet-install 
+#  service.running:
+#    - name: kubelet
+#    - enable: True
+#    - watch:
+#      - file: kubelet-install 
