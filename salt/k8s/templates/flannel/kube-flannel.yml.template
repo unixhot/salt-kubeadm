@@ -90,7 +90,8 @@ data:
     {
       "Network": "{{ POD_CIDR }}",
       "Backend": {
-        "Type": "vxlan"
+        "Type": "vxlan",
+        "Directrouting": true
       }
     }
 kind: ConfigMap
